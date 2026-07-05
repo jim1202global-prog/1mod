@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1mod 项目管理</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #687386;
+      --line: #dde3ee;
+      --brand: #176b87;
+      --brand-soft: #e7f4f7;
+      --accent: #c9792b;
+      --shadow: 0 12px 30px rgba(24, 37, 56, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      background: #101827;
+      color: #f6f8fb;
+      overflow-y: auto;
+    }
+
+    .brand {
+      padding: 8px 8px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      margin-bottom: 14px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 750;
+    }
+
+    .brand p {
+      margin: 8px 0 0;
+      color: #bac5d6;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .nav-button {
+      width: 100%;
+      min-height: 44px;
+      margin: 4px 0;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #dbe3ef;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.16s ease, color 0.16s ease;
+    }
+
+    .nav-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .nav-button.active {
+      background: var(--brand-soft);
+      color: #0f3443;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .topbar p {
+      max-width: 720px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .action-button {
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .action-button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .table-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 12px;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eef3f8;
+      color: #263247;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    td[contenteditable="true"] {
+      background: #ffffff;
+      outline: none;
+    }
+
+    td[contenteditable="true"]:focus {
+      background: #fff8ec;
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+
+    .hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status {
+      min-height: 22px;
+      color: var(--brand);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      main {
+        padding: 18px;
+      }
+
+      .topbar {
+        display: block;
+      }
+
+      .actions {
+        justify-content: flex-start;
+        margin-top: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <h1>1mod</h1>
+        <p>项目管理总控台</p>
+      </div>
+      <nav id="nav"></nav>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div>
+          <h2 id="pageTitle">项目路线图</h2>
+          <p id="pageDescription">展示项目从定义、调研、MVP、测试到发布后的整体推进路径。</p>
+        </div>
+        <div class="actions">
+          <button class="action-button" id="addRowButton" type="button">新增一行</button>
+          <button class="action-button" id="resetButton" type="button">恢复默认</button>
+          <button class="action-button primary" id="exportButton" type="button">导出只读 HTML</button>
+        </div>
+      </div>
+
+      <div id="sections"></div>
+      <div class="hint">提示：点击表格内容即可编辑。修改会自动保存在当前浏览器中。</div>
+      <div class="status" id="status"></div>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "one_mod_project_management_v1";
+
+    const defaultData = [
+      {
+        id: "roadmap",
+        title: "项目路线图",
+        description: "展示项目从定义、调研、MVP、测试到发布后的整体推进路径。",
+        headers: ["阶段", "时间范围", "目标", "关键交付物", "成功标准", "状态"],
+        rows: [
+          ["阶段 0：项目定义", "第 1 周", "明确项目方向、范围和成功标准", "项目一句话定义、目标用户、MVP 范围、限制条件", "所有人都能清楚说明 1mod 是什么，以及第一版必须达成什么", "未开始"],
+          ["阶段 1：调研与规划", "第 1-2 周", "了解用户、竞品、风险和技术可行性", "用户场景、竞品记录、技术方案选项、风险清单", "MVP 方向有真实需求支撑，并且具备可执行性", "未开始"],
+          ["阶段 2：MVP 构建", "第 3-6 周", "构建最小可用版本，用来验证核心价值", "核心功能、基础界面体验、可运行原型、内部文档", "目标用户可以完整走通主流程", "未开始"],
+          ["阶段 3：内部测试", "第 7 周", "小范围测试并收集具体反馈", "测试计划、反馈记录、问题清单、优化优先级", "公开发布前识别并排序主要阻塞问题", "未开始"],
+          ["阶段 4：公开测试版", "第 8-10 周", "向早期用户发布更稳定的版本", "测试版发布、引导流程、反馈渠道、数据检查点", "早期用户可以在有限支持下使用，并提供有效反馈", "未开始"],
+          ["阶段 5：发布准备", "第 11-12 周", "为正式发布或下一个重要里程碑做准备", "最终优化、发布检查清单、文档、支持流程", "产品稳定性达到目标发布人群的使用要求", "未开始"],
+          ["阶段 6：增长与迭代", "发布后", "基于真实使用情况和战略优先级持续改进", "迭代路线图、功能优化、增长实验", "决策基于反馈、使用数据和项目目标", "未开始"]
+        ]
+      },
+      {
+        id: "milestones",
+        title: "里程碑计划",
+        description: "标记关键节点和阶段验收点，用来判断项目是否可以进入下一阶段。",
+        headers: ["里程碑编号", "里程碑名称", "对应阶段", "目标日期", "核心目标", "验收标准", "负责人", "状态", "备注"],
+        rows: [
+          ["M-001", "项目定义完成", "阶段 0：项目定义", "第 1 周结束", "明确 1mod 的方向、边界和成功标准", "已完成项目一句话定义、目标用户、MVP 范围和限制条件", "待定", "未开始", "这是后续所有计划的基础"],
+          ["M-002", "调研与规划完成", "阶段 1：调研与规划", "第 2 周结束", "验证项目方向是否有真实需求和可执行性", "已完成用户场景、竞品记录、技术方案选项和风险清单", "待定", "未开始", "调研结论应反向修正 MVP 范围"],
+          ["M-003", "MVP 核心流程可运行", "阶段 2：MVP 构建", "第 6 周结束", "让目标用户可以完整走通核心流程", "核心功能可用，主流程可以端到端完成，基础体验无重大阻塞", "待定", "未开始", "不追求功能完整，重点验证核心价值"],
+          ["M-004", "内部测试完成", "阶段 3：内部测试", "第 7 周结束", "发现主要问题并明确修复优先级", "已完成测试计划、反馈记录、问题清单和优化排序", "待定", "未开始", "测试结果决定是否进入公开测试"],
+          ["M-005", "公开测试版发布", "阶段 4：公开测试版", "第 10 周结束", "将稳定版本交给早期用户使用", "测试版可访问，反馈渠道可用，关键问题有跟踪机制", "待定", "未开始", "重点观察真实使用反馈"],
+          ["M-006", "正式发布准备完成", "阶段 5：发布准备", "第 12 周结束", "为正式发布或下一个重要节点做好准备", "发布检查清单完成，文档齐备，支持流程明确，重大问题已处理", "待定", "未开始", "可作为正式上线前的最终验收点"],
+          ["M-007", "第一轮迭代计划确定", "阶段 6：增长与迭代", "发布后第 2 周", "根据真实反馈确定下一轮优先级", "已形成下一轮迭代路线图、优化清单和指标复盘", "待定", "未开始", "从计划驱动转向反馈和数据驱动"]
+        ]
+      },
+      {
+        id: "monthly-okr",
+        title: "月度 OKR",
+        description: "把本月最重要的项目目标和关键结果放在一起，用来聚焦执行和复盘进展。",
+        headers: ["月份", "目标 O", "关键结果 KR", "衡量方式", "当前值", "目标值", "负责人", "进度", "状态", "备注"],
+        rows: [
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR1：完成项目一句话定位", "是否形成可被团队复述的定位句", "未完成", "完成", "待定", "0%", "未开始", "对应 B-001"],
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR2：明确核心用户和次要用户", "用户群体清单是否完成", "未完成", "完成", "待定", "0%", "未开始", "对应 B-002"],
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR3：确定 MVP 必做范围和暂缓范围", "MVP 范围清单是否完成", "未完成", "完成", "待定", "0%", "未开始", "对应 B-003"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR1：整理 3-5 个核心用户场景", "用户场景数量", "0 个", "3-5 个", "待定", "0%", "未开始", "对应 B-005"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR2：完成类似项目或产品调研", "调研对象数量", "0 个", "不少于 5 个", "待定", "0%", "未开始", "对应 B-004"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR3：形成初版风险登记表", "是否完成风险列表并指定缓解措施", "未完成", "完成", "待定", "0%", "未开始", "对应风险登记表"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR1：完成 MVP 功能清单", "功能清单是否完成并关联用户场景", "未完成", "完成", "待定", "0%", "未开始", "对应 B-006"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR2：草拟核心用户流程", "主流程是否清晰可走通", "未完成", "完成", "待定", "0%", "未开始", "对应 B-008"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR3：确定初步技术架构方向", "架构方案是否记录取舍和理由", "未完成", "完成", "待定", "0%", "未开始", "对应 B-010"]
+        ]
+      },
+      {
+        id: "backlog",
+        title: "待办事项池",
+        description: "统一收集项目任务、想法、问题、风险和改进项。",
+        headers: ["编号", "类别", "事项", "用户/问题", "优先级", "工作量", "负责人", "状态", "备注"],
+        rows: [
+          ["B-001", "战略", "定义项目一句话定位", "团队需要对 1mod 是什么形成共同理解", "高", "小", "待定", "未开始", "这句话应成为项目的北极星"],
+          ["B-002", "战略", "定义目标用户群体", "项目规划需要清晰的用户焦点", "高", "小", "待定", "未开始", "包含核心用户和次要用户"],
+          ["B-003", "战略", "定义 MVP 范围", "第一版需要明确边界", "高", "中", "待定", "未开始", "区分必须做和以后再做"],
+          ["B-004", "调研", "调研类似项目或产品", "减少认知盲区和定位风险", "中", "中", "待定", "未开始", "记录优势、弱点和机会空白"],
+          ["B-005", "调研", "编写 3-5 个核心用户场景", "功能应对应真实使用场景", "高", "中", "待定", "未开始", "用用户场景验证 MVP 功能"],
+          ["B-006", "产品", "创建 MVP 功能清单", "开发需要清晰需求", "高", "中", "待定", "未开始", "每个功能应关联到一个用户场景"],
+          ["B-007", "产品", "创建非 MVP 功能清单", "好想法需要被保存，但不能干扰 MVP", "中", "小", "待定", "未开始", "作为未来路线图输入"],
+          ["B-008", "设计", "草拟初始用户流程", "产品需要清晰主路径", "高", "中", "待定", "未开始", "从最重要的工作流开始"],
+          ["B-009", "设计", "创建低保真线框图", "在详细设计前先对齐结构", "中", "中", "待定", "未开始", "一开始可以是简单草图"],
+          ["B-010", "技术", "确定技术架构", "避免后期出现高成本返工", "高", "中", "待定", "未开始", "记录取舍和决策理由"],
+          ["B-011", "技术", "搭建开发环境", "团队需要稳定的构建和测试方式", "高", "中", "待定", "未开始", "包含环境搭建说明"],
+          ["B-012", "技术", "构建 MVP 核心流程", "验证项目核心价值", "高", "大", "待定", "未开始", "主要开发里程碑"],
+          ["B-013", "测试", "创建测试检查清单", "MVP 需要可重复验证", "中", "小", "待定", "未开始", "覆盖主流程、边界情况和回归检查"],
+          ["B-014", "运营", "建立每周复盘节奏", "项目需要稳定的进度追踪", "高", "小", "待定", "未开始", "周计划、周中检查、周末复盘"],
+          ["B-015", "文档", "维护决策记录", "重要决策不应散落在聊天中", "中", "小", "待定", "未开始", "记录日期、决策、负责人和理由"],
+          ["B-016", "风险", "创建风险登记表", "风险需要在变成阻塞前被看见", "高", "小", "待定", "未开始", "每周复查一次"]
+        ]
+      },
+      {
+        id: "tools",
+        title: "项目管理工具表",
+        description: "说明每类管理工具的用途、字段和更新节奏。",
+        headers: ["工具/表格", "用途", "推荐字段", "更新节奏", "负责人", "备注"],
+        rows: [
+          ["路线图", "展示项目各阶段方向", "阶段、时间范围、目标、交付物、成功标准、状态", "每 2-4 周复查", "项目负责人", "保持高层级和相对稳定"],
+          ["里程碑计划", "标记关键节点和阶段验收点", "里程碑编号、名称、对应阶段、目标日期、核心目标、验收标准、负责人、状态、备注", "每周检查，每个阶段结束时更新", "项目负责人", "用来判断项目是否真正进入下一阶段"],
+          ["月度 OKR", "聚焦本月最重要目标和可衡量结果", "月份、目标 O、关键结果 KR、衡量方式、当前值、目标值、负责人、进度、状态、备注", "每周检查，月底复盘", "项目负责人", "适合把路线图和待办事项转成月度执行重点"],
+          ["待办事项池", "存放所有任务、想法、问题和改进项", "编号、类别、事项、用户/问题、优先级、工作量、负责人、状态、备注", "持续更新", "项目负责人/产品负责人", "这是所有待处理事项的统一入口"],
+          ["每周计划", "选择本周真正重要的少量任务", "周次、目标、任务、负责人、预期结果、状态", "每周更新", "项目负责人", "避免一周塞入过多任务"],
+          ["任务看板", "跟踪当前正在推进的工作", "待处理、进行中、待评审、已完成、阻塞", "每天或每个工作时段更新", "全体成员", "可用 Notion、Trello、GitHub Projects、Linear 或电子表格管理"],
+          ["决策记录", "记录重要选择", "日期、决策、背景、考虑过的选项、理由、负责人", "每次做出关键决策时更新", "项目负责人", "避免重复争论"],
+          ["风险登记表", "跟踪影响时间、质量、范围或可行性的风险", "风险、影响、概率、缓解措施、负责人、状态", "每周复查", "项目负责人", "保持实用，不做形式主义"],
+          ["会议记录", "记录讨论和后续行动", "日期、参与者、议题、决策、行动项", "每次会议后更新", "会议负责人", "行动项应转入待办事项池"],
+          ["发布检查清单", "发布或演示前确认准备情况", "区域、要求、负责人、状态、证据/链接", "每次发布或演示前", "项目负责人/测试负责人", "小规模发布也很有用"]
+        ]
+      },
+      {
+        id: "weekly",
+        title: "每周计划",
+        description: "把本周目标拆成少量明确任务，避免计划过载。",
+        headers: ["周次", "目标", "任务", "负责人", "预期结果", "状态"],
+        rows: [
+          ["第 1 周", "清晰定义项目", "编写项目一句话定位", "待定", "一句清晰的项目定位", "未开始"],
+          ["第 1 周", "清晰定义项目", "确认目标用户", "待定", "核心用户和次要用户列表", "未开始"],
+          ["第 1 周", "清晰定义项目", "草拟 MVP 范围", "待定", "必须做和以后再做的清单", "未开始"]
+        ]
+      },
+      {
+        id: "decisions",
+        title: "决策记录",
+        description: "记录关键选择、背景和理由，避免重要判断散落在聊天中。",
+        headers: ["日期", "决策", "背景", "考虑过的选项", "理由", "负责人"],
+        rows: [
+          ["YYYY-MM-DD", "待定", "待定", "待定", "待定", "待定"]
+        ]
+      },
+      {
+        id: "risks",
+        title: "风险登记表",
+        description: "提前看见可能影响范围、时间、质量和可行性的风险。",
+        headers: ["编号", "风险", "影响", "概率", "缓解措施", "负责人", "状态"],
+        rows: [
+          ["R-001", "项目范围变得过宽", "高", "中", "定义 MVP 范围，并用它审查所有新增想法", "待定", "开放"],
+          ["R-002", "核心用户需求不清晰", "高", "中", "先编写用户场景，避免在验证前投入过多开发", "待定", "开放"],
+          ["R-003", "技术方向后期发生变化", "中", "中", "尽早记录架构决策，只有在有明确证据时才调整", "待定", "开放"]
+        ]
+      }
+    ];
+
+    let data = loadData();
+    let activeId = data[0].id;
+
+    const nav = document.getElementById("nav");
+    const sections = document.getElementById("sections");
+    const pageTitle = document.getElementById("pageTitle");
+    const pageDescription = document.getElementById("pageDescription");
+    const status = document.getElementById("status");
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return structuredClone(defaultData);
+      try {
+        return mergeWithDefaults(JSON.parse(saved));
+      } catch {
+        return structuredClone(defaultData);
+      }
+    }
+
+    function mergeWithDefaults(savedData) {
+      if (!Array.isArray(savedData)) return structuredClone(defaultData);
+
+      const merged = savedData.map((section) => ({ ...section }));
+      defaultData.forEach((defaultSection) => {
+        const existing = merged.find((section) => section.id === defaultSection.id);
+        if (!existing) {
+          merged.push(structuredClone(defaultSection));
+          return;
+        }
+
+        if (existing.id === "tools") {
+          defaultSection.rows.forEach((defaultRow) => {
+            const toolName = defaultRow[0];
+            const hasTool = existing.rows.some((row) => row[0] === toolName);
+            if (!hasTool) existing.rows.push([...defaultRow]);
+          });
+        }
+      });
+
+      return merged;
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      status.textContent = "已自动保存";
+      clearTimeout(window.statusTimer);
+      window.statusTimer = setTimeout(() => {
+        status.textContent = "";
+      }, 1400);
+    }
+
+    function render() {
+      nav.innerHTML = "";
+      sections.innerHTML = "";
+
+      data.forEach((section) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "nav-button";
+        button.textContent = section.title;
+        button.dataset.id = section.id;
+        button.addEventListener("click", () => switchSection(section.id));
+        nav.appendChild(button);
+
+        const block = document.createElement("section");
+        block.className = "section";
+        block.dataset.id = section.id;
+
+        const tableWrap = document.createElement("div");
+        tableWrap.className = "table-wrap";
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        section.headers.forEach((header) => {
+          const th = document.createElement("th");
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        section.rows.forEach((row, rowIndex) => {
+          const tr = document.createElement("tr");
+          section.headers.forEach((_, cellIndex) => {
+            const td = document.createElement("td");
+            td.contentEditable = "true";
+            td.textContent = row[cellIndex] || "";
+            td.addEventListener("input", () => {
+              data.find((item) => item.id === section.id).rows[rowIndex][cellIndex] = td.textContent;
+              saveData();
+            });
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        block.appendChild(tableWrap);
+        sections.appendChild(block);
+      });
+
+      switchSection(activeId);
+    }
+
+    function switchSection(id) {
+      activeId = id;
+      const section = data.find((item) => item.id === id);
+      pageTitle.textContent = section.title;
+      pageDescription.textContent = section.description;
+      document.querySelectorAll(".nav-button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.id === id);
+      });
+      document.querySelectorAll(".section").forEach((block) => {
+        block.classList.toggle("active", block.dataset.id === id);
+      });
+    }
+
+    document.getElementById("addRowButton").addEventListener("click", () => {
+      const section = data.find((item) => item.id === activeId);
+      section.rows.push(section.headers.map(() => ""));
+      saveData();
+      render();
+    });
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      if (!confirm("确认恢复默认内容？当前浏览器保存的修改会被清除。")) return;
+      data = structuredClone(defaultData);
+      localStorage.removeItem(STORAGE_KEY);
+      activeId = data[0].id;
+      render();
+      status.textContent = "已恢复默认内容";
+    });
+
+    function createReadOnlyHtml(exportData) {
+      const safeData = JSON.stringify(exportData).replace(/<\/script/gi, "<\\/script");
+      return `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1mod 项目管理查看版</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #687386;
+      --line: #dde3ee;
+      --brand: #176b87;
+      --brand-soft: #e7f4f7;
+      --shadow: 0 12px 30px rgba(24, 37, 56, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      background: #101827;
+      color: #f6f8fb;
+      overflow-y: auto;
+    }
+
+    .brand {
+      padding: 8px 8px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      margin-bottom: 14px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 750;
+    }
+
+    .brand p {
+      margin: 8px 0 0;
+      color: #bac5d6;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .nav-button {
+      width: 100%;
+      min-height: 44px;
+      margin: 4px 0;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #dbe3ef;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .nav-button.active {
+      background: var(--brand-soft);
+      color: #0f3443;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      margin-bottom: 18px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .topbar p {
+      max-width: 720px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .table-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 12px;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+
+    th:last-child,
+    td:last-child { border-right: 0; }
+    tr:last-child td { border-bottom: 0; }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eef3f8;
+      color: #263247;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+      }
+      main { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <h1>1mod</h1>
+        <p>项目管理查看版</p>
+      </div>
+      <nav id="nav"></nav>
+    </aside>
+    <main>
+      <div class="topbar">
+        <h2 id="pageTitle"></h2>
+        <p id="pageDescription"></p>
+      </div>
+      <div id="sections"></div>
+      <div class="hint">此文件为只读查看版，不支持编辑。</div>
+    </main>
+  </div>
+  <script>
+    const data = ${safeData};
+    let activeId = data[0].id;
+    const nav = document.getElementById("nav");
+    const sections = document.getElementById("sections");
+    const pageTitle = document.getElementById("pageTitle");
+    const pageDescription = document.getElementById("pageDescription");
+
+    function render() {
+      nav.innerHTML = "";
+      sections.innerHTML = "";
+
+      data.forEach((section) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "nav-button";
+        button.textContent = section.title;
+        button.dataset.id = section.id;
+        button.addEventListener("click", () => switchSection(section.id));
+        nav.appendChild(button);
+
+        const block = document.createElement("section");
+        block.className = "section";
+        block.dataset.id = section.id;
+
+        const tableWrap = document.createElement("div");
+        tableWrap.className = "table-wrap";
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        section.headers.forEach((header) => {
+          const th = document.createElement("th");
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        section.rows.forEach((row) => {
+          const tr = document.createElement("tr");
+          section.headers.forEach((_, cellIndex) => {
+            const td = document.createElement("td");
+            td.textContent = row[cellIndex] || "";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        block.appendChild(tableWrap);
+        sections.appendChild(block);
+      });
+
+      switchSection(activeId);
+    }
+
+    function switchSection(id) {
+      activeId = id;
+      const section = data.find((item) => item.id === id);
+      pageTitle.textContent = section.title;
+      pageDescription.textContent = section.description;
+      document.querySelectorAll(".nav-button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.id === id);
+      });
+      document.querySelectorAll(".section").forEach((block) => {
+        block.classList.toggle("active", block.dataset.id === id);
+      });
+    }
+
+    render();
+  <\/script>
+</body>
+</html>`;
+    }
+
+    document.getElementById("exportButton").addEventListener("click", () => {
+      saveData();
+      const html = createReadOnlyHtml(data);
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "1mod-project-management-view-only.html";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    render();
+  </script>
+</body>
+</html>
