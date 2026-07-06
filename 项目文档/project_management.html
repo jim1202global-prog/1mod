@@ -155,6 +155,32 @@
       overflow: auto;
     }
 
+    .subsection-title {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .subsection-note {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .subsection-title {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .subsection-note {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
     table {
       width: 100%;
       min-width: 980px;
@@ -258,6 +284,7 @@
         </div>
         <div class="actions">
           <button class="action-button" id="addRowButton" type="button">新增一行</button>
+          <button class="action-button" id="addMonthButton" type="button">新增月份</button>
           <button class="action-button" id="resetButton" type="button">恢复默认</button>
           <button class="action-button primary" id="exportButton" type="button">导出只读 HTML</button>
         </div>
@@ -301,7 +328,16 @@
           ["M-005", "公开测试版发布", "阶段 4：公开测试版", "第 10 周结束", "将稳定版本交给早期用户使用", "测试版可访问，反馈渠道可用，关键问题有跟踪机制", "待定", "未开始", "重点观察真实使用反馈"],
           ["M-006", "正式发布准备完成", "阶段 5：发布准备", "第 12 周结束", "为正式发布或下一个重要节点做好准备", "发布检查清单完成，文档齐备，支持流程明确，重大问题已处理", "待定", "未开始", "可作为正式上线前的最终验收点"],
           ["M-007", "第一轮迭代计划确定", "阶段 6：增长与迭代", "发布后第 2 周", "根据真实反馈确定下一轮优先级", "已形成下一轮迭代路线图、优化清单和指标复盘", "待定", "未开始", "从计划驱动转向反馈和数据驱动"]
-        ]
+        ],
+        monthPlans: {
+          title: "月份计划",
+          headers: ["月份", "本月目标", "关联里程碑", "重点任务", "预期成果", "负责人", "状态", "备注"],
+          rows: [
+            ["2026年7月", "完成项目定义、基础规划和管理体系搭建", "M-001、M-002", "确认项目定位、目标用户、MVP 范围、核心用户场景、风险清单", "项目方向清晰，第一版范围可执行", "待定", "未开始", "作为 1mod 项目启动月"],
+            ["2026年8月", "推进 MVP 核心流程设计与构建", "M-003", "完成 MVP 功能清单、用户流程、技术架构和核心流程开发", "目标用户可以走通核心流程", "待定", "未开始", "重点验证核心价值"],
+            ["2026年9月", "完成内部测试并准备公开测试版", "M-004、M-005", "执行内部测试、整理反馈、修复主要问题、准备公开测试版", "公开测试版达到早期用户可用状态", "待定", "未开始", "重点收集真实反馈"]
+          ]
+        }
       },
       {
         id: "monthly-okr",
@@ -402,6 +438,7 @@
     const sections = document.getElementById("sections");
     const pageTitle = document.getElementById("pageTitle");
     const pageDescription = document.getElementById("pageDescription");
+    const addMonthButton = document.getElementById("addMonthButton");
     const status = document.getElementById("status");
 
     function loadData() {
@@ -423,6 +460,10 @@
         if (!existing) {
           merged.push(structuredClone(defaultSection));
           return;
+        }
+
+        if (existing.id === "milestones" && !existing.monthPlans) {
+          existing.monthPlans = structuredClone(defaultSection.monthPlans);
         }
 
         if (existing.id === "tools") {
@@ -463,42 +504,69 @@
         block.className = "section";
         block.dataset.id = section.id;
 
-        const tableWrap = document.createElement("div");
-        tableWrap.className = "table-wrap";
+        block.appendChild(createEditableTable(section.headers, section.rows, (rowIndex, cellIndex, value) => {
+          data.find((item) => item.id === section.id).rows[rowIndex][cellIndex] = value;
+          saveData();
+        }));
 
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const headerRow = document.createElement("tr");
-        section.headers.forEach((header) => {
-          const th = document.createElement("th");
-          th.textContent = header;
-          headerRow.appendChild(th);
-        });
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
+        if (section.id === "milestones" && section.monthPlans) {
+          renderMonthPlans(block, section);
+        }
 
-        const tbody = document.createElement("tbody");
-        section.rows.forEach((row, rowIndex) => {
-          const tr = document.createElement("tr");
-          section.headers.forEach((_, cellIndex) => {
-            const td = document.createElement("td");
-            td.contentEditable = "true";
-            td.textContent = row[cellIndex] || "";
-            td.addEventListener("input", () => {
-              data.find((item) => item.id === section.id).rows[rowIndex][cellIndex] = td.textContent;
-              saveData();
-            });
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-        tableWrap.appendChild(table);
-        block.appendChild(tableWrap);
         sections.appendChild(block);
       });
 
       switchSection(activeId);
+    }
+
+    function createEditableTable(headers, rows, onChange) {
+      const tableWrap = document.createElement("div");
+      tableWrap.className = "table-wrap";
+
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      headers.forEach((header) => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      rows.forEach((row, rowIndex) => {
+        const tr = document.createElement("tr");
+        headers.forEach((_, cellIndex) => {
+          const td = document.createElement("td");
+          td.contentEditable = "true";
+          td.textContent = row[cellIndex] || "";
+          td.addEventListener("input", () => onChange(rowIndex, cellIndex, td.textContent));
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+
+      return tableWrap;
+    }
+
+    function renderMonthPlans(block, section) {
+      const title = document.createElement("h3");
+      title.className = "subsection-title";
+      title.textContent = section.monthPlans.title;
+      block.appendChild(title);
+
+      const note = document.createElement("p");
+      note.className = "subsection-note";
+      note.textContent = "从 2026年7月 开始按月拆解里程碑。点击右上角“新增月份”可继续追加下一个月份。";
+      block.appendChild(note);
+
+      block.appendChild(createEditableTable(section.monthPlans.headers, section.monthPlans.rows, (rowIndex, cellIndex, value) => {
+        data.find((item) => item.id === section.id).monthPlans.rows[rowIndex][cellIndex] = value;
+        saveData();
+      }));
     }
 
     function switchSection(id) {
@@ -512,6 +580,7 @@
       document.querySelectorAll(".section").forEach((block) => {
         block.classList.toggle("active", block.dataset.id === id);
       });
+      addMonthButton.style.display = id === "milestones" ? "inline-block" : "none";
     }
 
     document.getElementById("addRowButton").addEventListener("click", () => {
@@ -520,6 +589,33 @@
       saveData();
       render();
     });
+
+    addMonthButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "milestones");
+      if (!section.monthPlans) return;
+      section.monthPlans.rows.push(createNextMonthPlanRow(section.monthPlans.rows));
+      saveData();
+      render();
+      switchSection("milestones");
+    });
+
+    function createNextMonthPlanRow(rows) {
+      const monthText = getNextMonthText(rows);
+      return [monthText, "填写本月目标", "关联里程碑编号", "填写本月重点任务", "填写预期成果", "待定", "未开始", ""];
+    }
+
+    function getNextMonthText(rows) {
+      const lastMonth = [...rows].reverse().map((row) => parseMonthText(row[0])).find(Boolean);
+      const base = lastMonth || { year: 2026, month: 6 };
+      const date = new Date(base.year, base.month, 1);
+      return `${date.getFullYear()}年${date.getMonth() + 1}月`;
+    }
+
+    function parseMonthText(value) {
+      const match = String(value || "").match(/(\d{4})年(\d{1,2})月/);
+      if (!match) return null;
+      return { year: Number(match[1]), month: Number(match[2]) };
+    }
 
     document.getElementById("resetButton").addEventListener("click", () => {
       if (!confirm("确认恢复默认内容？当前浏览器保存的修改会被清除。")) return;
@@ -743,36 +839,55 @@
         block.className = "section";
         block.dataset.id = section.id;
 
-        const tableWrap = document.createElement("div");
-        tableWrap.className = "table-wrap";
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const headerRow = document.createElement("tr");
-        section.headers.forEach((header) => {
-          const th = document.createElement("th");
-          th.textContent = header;
-          headerRow.appendChild(th);
-        });
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
+        block.appendChild(createReadOnlyTable(section.headers, section.rows));
 
-        const tbody = document.createElement("tbody");
-        section.rows.forEach((row) => {
-          const tr = document.createElement("tr");
-          section.headers.forEach((_, cellIndex) => {
-            const td = document.createElement("td");
-            td.textContent = row[cellIndex] || "";
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-        tableWrap.appendChild(table);
-        block.appendChild(tableWrap);
+        if (section.id === "milestones" && section.monthPlans) {
+          const title = document.createElement("h3");
+          title.className = "subsection-title";
+          title.textContent = section.monthPlans.title;
+          block.appendChild(title);
+
+          const note = document.createElement("p");
+          note.className = "subsection-note";
+          note.textContent = "从 2026年7月 开始按月拆解里程碑。";
+          block.appendChild(note);
+
+          block.appendChild(createReadOnlyTable(section.monthPlans.headers, section.monthPlans.rows));
+        }
+
         sections.appendChild(block);
       });
 
       switchSection(activeId);
+    }
+
+    function createReadOnlyTable(headers, rows) {
+      const tableWrap = document.createElement("div");
+      tableWrap.className = "table-wrap";
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      headers.forEach((header) => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      rows.forEach((row) => {
+        const tr = document.createElement("tr");
+        headers.forEach((_, cellIndex) => {
+          const td = document.createElement("td");
+          td.textContent = row[cellIndex] || "";
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+      return tableWrap;
     }
 
     function switchSection(id) {
