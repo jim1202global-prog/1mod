@@ -155,6 +155,295 @@
       overflow: auto;
     }
 
+    .executive-strip,
+    .month-timeline {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .executive-strip {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .summary-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .summary-kicker,
+    .timeline-month {
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .summary-title,
+    .timeline-title {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+
+    .summary-text,
+    .timeline-text {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .month-timeline {
+      position: relative;
+      display: block;
+      padding: 4px 0 6px 24px;
+      margin-bottom: 20px;
+    }
+
+    .month-timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 10px;
+      bottom: 16px;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--brand), var(--accent));
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(92px, 140px) 1fr;
+      gap: 14px;
+      padding: 0 0 16px 18px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 3px rgba(23, 107, 135, 0.18);
+    }
+
+    .timeline-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .timeline-meta {
+      align-self: start;
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      padding-top: 8px;
+    }
+
+    .timeline-status {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: #0f3443;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .filter-select {
+      width: 28px;
+      min-height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .table-filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .table-filter-label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .okr-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .okr-month {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .okr-month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #eef3f8;
+    }
+
+    .okr-month-title {
+      color: #263247;
+      font-size: 16px;
+      font-weight: 800;
+      flex: 1;
+    }
+
+    .okr-toggle {
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--brand);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .okr-objective {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .okr-objective-title {
+      margin-bottom: 10px;
+      color: var(--brand);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .okr-kr-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .okr-kr {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
+      gap: 8px;
+      align-items: stretch;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .okr-cell {
+      min-height: 34px;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.45;
+      background: #ffffff;
+      word-break: break-word;
+    }
+
+    .okr-cell:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff8ec;
+    }
+
+    .okr-label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .weekly-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .weekly-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .weekly-header {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.6fr) minmax(220px, 1.4fr);
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: #eef3f8;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .weekly-title {
+      color: var(--brand);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .weekly-goal {
+      color: #263247;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .weekly-table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .weekly-cell {
+      min-height: 34px;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: #ffffff;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .weekly-cell:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff8ec;
+    }
+
     .subsection-title {
       margin: 24px 0 10px;
       font-size: 18px;
@@ -228,6 +517,17 @@
       box-shadow: inset 0 0 0 2px var(--accent);
     }
 
+    .cell-select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      padding: 6px 8px;
+    }
+
     .hint {
       margin-top: 12px;
       color: var(--muted);
@@ -284,7 +584,17 @@
         </div>
         <div class="actions">
           <button class="action-button" id="addRowButton" type="button">新增一行</button>
+          <button class="action-button" id="deleteRowButton" type="button">减去一行</button>
           <button class="action-button" id="addMonthButton" type="button">新增月份</button>
+          <button class="action-button" id="deleteMonthButton" type="button">删除月份</button>
+          <button class="action-button" id="addWeekButton" type="button">新增周</button>
+          <button class="action-button" id="deleteWeekButton" type="button">删除周</button>
+          <button class="action-button" id="addOkrMonthButton" type="button">新增 OKR 月份</button>
+          <button class="action-button" id="deleteOkrMonthButton" type="button">删减 OKR 月份</button>
+          <button class="action-button" id="addObjectiveButton" type="button">新增 O</button>
+          <button class="action-button" id="deleteObjectiveButton" type="button">删减 O</button>
+          <button class="action-button" id="addKrButton" type="button">新增 KR</button>
+          <button class="action-button" id="deleteKrButton" type="button">删减 KR</button>
           <button class="action-button" id="resetButton" type="button">恢复默认</button>
           <button class="action-button primary" id="exportButton" type="button">导出只读 HTML</button>
         </div>
@@ -298,86 +608,63 @@
 
   <script>
     const STORAGE_KEY = "one_mod_project_management_v1";
+    const BACKLOG_STATUS_OPTIONS = ["未开始", "已开始", "暂停中", "已完成", "已取消"];
+    const BACKLOG_OWNERSHIP_OPTIONS = ["产品", "运营", "市场", "前端", "后端", "测试"];
+    const SECTION_ORDER = ["roadmap", "monthly-okr", "weekly", "backlog", "decisions", "risks", "tools"];
+    const backlogFilters = { ownership: "全部", owner: "全部", status: "全部" };
+    const okrCollapsedMonths = {};
 
     const defaultData = [
       {
         id: "roadmap",
         title: "项目路线图",
-        description: "展示项目从定义、调研、MVP、测试到发布后的整体推进路径。",
-        headers: ["阶段", "时间范围", "目标", "关键交付物", "成功标准", "状态"],
+        description: "按月份倒叙展示项目推进节奏，把月度目标、重点任务和预期成果统一放在路线图中管理。",
+        headers: ["月份", "阶段", "本月目标", "老板关注点", "重点任务", "预期成果", "负责人", "状态", "备注"],
         rows: [
-          ["阶段 0：项目定义", "第 1 周", "明确项目方向、范围和成功标准", "项目一句话定义、目标用户、MVP 范围、限制条件", "所有人都能清楚说明 1mod 是什么，以及第一版必须达成什么", "未开始"],
-          ["阶段 1：调研与规划", "第 1-2 周", "了解用户、竞品、风险和技术可行性", "用户场景、竞品记录、技术方案选项、风险清单", "MVP 方向有真实需求支撑，并且具备可执行性", "未开始"],
-          ["阶段 2：MVP 构建", "第 3-6 周", "构建最小可用版本，用来验证核心价值", "核心功能、基础界面体验、可运行原型、内部文档", "目标用户可以完整走通主流程", "未开始"],
-          ["阶段 3：内部测试", "第 7 周", "小范围测试并收集具体反馈", "测试计划、反馈记录、问题清单、优化优先级", "公开发布前识别并排序主要阻塞问题", "未开始"],
-          ["阶段 4：公开测试版", "第 8-10 周", "向早期用户发布更稳定的版本", "测试版发布、引导流程、反馈渠道、数据检查点", "早期用户可以在有限支持下使用，并提供有效反馈", "未开始"],
-          ["阶段 5：发布准备", "第 11-12 周", "为正式发布或下一个重要里程碑做准备", "最终优化、发布检查清单、文档、支持流程", "产品稳定性达到目标发布人群的使用要求", "未开始"],
-          ["阶段 6：增长与迭代", "发布后", "基于真实使用情况和战略优先级持续改进", "迭代路线图、功能优化、增长实验", "决策基于反馈、使用数据和项目目标", "未开始"]
+          ["2026年9月", "阶段 3-4：内部测试与公开测试版", "完成内部测试并准备公开测试版", "主要问题是否已暴露，是否具备外部试用条件", "执行内部测试、整理反馈、修复主要问题、准备公开测试版", "公开测试版达到早期用户可用状态", "待定", "未开始", "重点收集真实反馈"],
+          ["2026年8月", "阶段 2：MVP 构建", "推进 MVP 核心流程设计与构建", "核心价值能否用最小版本跑通", "完成 MVP 功能清单、用户流程、技术架构和核心流程开发", "目标用户可以走通核心流程", "待定", "未开始", "重点验证核心价值"],
+          ["2026年7月", "阶段 0-1：项目定义与调研规划", "完成项目定义、基础规划和管理体系搭建", "项目要解决什么问题，第一版边界是否清楚，方向是否有真实需求", "确认项目定位、目标用户、MVP 范围、核心用户场景、风险清单", "项目方向清晰，第一版范围可执行", "待定", "未开始", "作为 1mod 项目启动月"]
         ]
-      },
-      {
-        id: "milestones",
-        title: "里程碑计划",
-        description: "标记关键节点和阶段验收点，用来判断项目是否可以进入下一阶段。",
-        headers: ["里程碑编号", "里程碑名称", "对应阶段", "目标日期", "核心目标", "验收标准", "负责人", "状态", "备注"],
-        rows: [
-          ["M-001", "项目定义完成", "阶段 0：项目定义", "第 1 周结束", "明确 1mod 的方向、边界和成功标准", "已完成项目一句话定义、目标用户、MVP 范围和限制条件", "待定", "未开始", "这是后续所有计划的基础"],
-          ["M-002", "调研与规划完成", "阶段 1：调研与规划", "第 2 周结束", "验证项目方向是否有真实需求和可执行性", "已完成用户场景、竞品记录、技术方案选项和风险清单", "待定", "未开始", "调研结论应反向修正 MVP 范围"],
-          ["M-003", "MVP 核心流程可运行", "阶段 2：MVP 构建", "第 6 周结束", "让目标用户可以完整走通核心流程", "核心功能可用，主流程可以端到端完成，基础体验无重大阻塞", "待定", "未开始", "不追求功能完整，重点验证核心价值"],
-          ["M-004", "内部测试完成", "阶段 3：内部测试", "第 7 周结束", "发现主要问题并明确修复优先级", "已完成测试计划、反馈记录、问题清单和优化排序", "待定", "未开始", "测试结果决定是否进入公开测试"],
-          ["M-005", "公开测试版发布", "阶段 4：公开测试版", "第 10 周结束", "将稳定版本交给早期用户使用", "测试版可访问，反馈渠道可用，关键问题有跟踪机制", "待定", "未开始", "重点观察真实使用反馈"],
-          ["M-006", "正式发布准备完成", "阶段 5：发布准备", "第 12 周结束", "为正式发布或下一个重要节点做好准备", "发布检查清单完成，文档齐备，支持流程明确，重大问题已处理", "待定", "未开始", "可作为正式上线前的最终验收点"],
-          ["M-007", "第一轮迭代计划确定", "阶段 6：增长与迭代", "发布后第 2 周", "根据真实反馈确定下一轮优先级", "已形成下一轮迭代路线图、优化清单和指标复盘", "待定", "未开始", "从计划驱动转向反馈和数据驱动"]
-        ],
-        monthPlans: {
-          title: "月份计划",
-          headers: ["月份", "本月目标", "关联里程碑", "重点任务", "预期成果", "负责人", "状态", "备注"],
-          rows: [
-            ["2026年7月", "完成项目定义、基础规划和管理体系搭建", "M-001、M-002", "确认项目定位、目标用户、MVP 范围、核心用户场景、风险清单", "项目方向清晰，第一版范围可执行", "待定", "未开始", "作为 1mod 项目启动月"],
-            ["2026年8月", "推进 MVP 核心流程设计与构建", "M-003", "完成 MVP 功能清单、用户流程、技术架构和核心流程开发", "目标用户可以走通核心流程", "待定", "未开始", "重点验证核心价值"],
-            ["2026年9月", "完成内部测试并准备公开测试版", "M-004、M-005", "执行内部测试、整理反馈、修复主要问题、准备公开测试版", "公开测试版达到早期用户可用状态", "待定", "未开始", "重点收集真实反馈"]
-          ]
-        }
       },
       {
         id: "monthly-okr",
         title: "月度 OKR",
         description: "把本月最重要的项目目标和关键结果放在一起，用来聚焦执行和复盘进展。",
-        headers: ["月份", "目标 O", "关键结果 KR", "衡量方式", "当前值", "目标值", "负责人", "进度", "状态", "备注"],
+        headers: ["月份", "目标 O", "关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注"],
         rows: [
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR1：完成项目一句话定位", "是否形成可被团队复述的定位句", "未完成", "完成", "待定", "0%", "未开始", "对应 B-001"],
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR2：明确核心用户和次要用户", "用户群体清单是否完成", "未完成", "完成", "待定", "0%", "未开始", "对应 B-002"],
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR3：确定 MVP 必做范围和暂缓范围", "MVP 范围清单是否完成", "未完成", "完成", "待定", "0%", "未开始", "对应 B-003"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR1：整理 3-5 个核心用户场景", "用户场景数量", "0 个", "3-5 个", "待定", "0%", "未开始", "对应 B-005"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR2：完成类似项目或产品调研", "调研对象数量", "0 个", "不少于 5 个", "待定", "0%", "未开始", "对应 B-004"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR3：形成初版风险登记表", "是否完成风险列表并指定缓解措施", "未完成", "完成", "待定", "0%", "未开始", "对应风险登记表"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR1：完成 MVP 功能清单", "功能清单是否完成并关联用户场景", "未完成", "完成", "待定", "0%", "未开始", "对应 B-006"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR2：草拟核心用户流程", "主流程是否清晰可走通", "未完成", "完成", "待定", "0%", "未开始", "对应 B-008"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR3：确定初步技术架构方向", "架构方案是否记录取舍和理由", "未完成", "完成", "待定", "0%", "未开始", "对应 B-010"]
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR1：完成项目一句话定位", "是否形成可被团队复述的定位句", "待定", "30%", "0%", "对应 B-001"],
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR2：明确核心用户和次要用户", "用户群体清单是否完成", "待定", "30%", "0%", "对应 B-002"],
+          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR3：确定 MVP 必做范围和暂缓范围", "MVP 范围清单是否完成", "待定", "40%", "0%", "对应 B-003"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR1：整理 3-5 个核心用户场景", "用户场景数量", "待定", "35%", "0%", "对应 B-005"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR2：完成类似项目或产品调研", "调研对象数量", "待定", "35%", "0%", "对应 B-004"],
+          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR3：形成初版风险登记表", "是否完成风险列表并指定缓解措施", "待定", "30%", "0%", "对应风险登记表"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR1：完成 MVP 功能清单", "功能清单是否完成并关联用户场景", "待定", "40%", "0%", "对应 B-006"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR2：草拟核心用户流程", "主流程是否清晰可走通", "待定", "30%", "0%", "对应 B-008"],
+          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR3：确定初步技术架构方向", "架构方案是否记录取舍和理由", "待定", "30%", "0%", "对应 B-010"]
         ]
       },
       {
         id: "backlog",
-        title: "待办事项池",
+        title: "待办事项",
         description: "统一收集项目任务、想法、问题、风险和改进项。",
-        headers: ["编号", "类别", "事项", "用户/问题", "优先级", "工作量", "负责人", "状态", "备注"],
+        headers: ["编号", "归属", "模块", "事项", "用户/问题", "优先级", "负责人", "状态", "备注"],
         rows: [
-          ["B-001", "战略", "定义项目一句话定位", "团队需要对 1mod 是什么形成共同理解", "高", "小", "待定", "未开始", "这句话应成为项目的北极星"],
-          ["B-002", "战略", "定义目标用户群体", "项目规划需要清晰的用户焦点", "高", "小", "待定", "未开始", "包含核心用户和次要用户"],
-          ["B-003", "战略", "定义 MVP 范围", "第一版需要明确边界", "高", "中", "待定", "未开始", "区分必须做和以后再做"],
-          ["B-004", "调研", "调研类似项目或产品", "减少认知盲区和定位风险", "中", "中", "待定", "未开始", "记录优势、弱点和机会空白"],
-          ["B-005", "调研", "编写 3-5 个核心用户场景", "功能应对应真实使用场景", "高", "中", "待定", "未开始", "用用户场景验证 MVP 功能"],
-          ["B-006", "产品", "创建 MVP 功能清单", "开发需要清晰需求", "高", "中", "待定", "未开始", "每个功能应关联到一个用户场景"],
-          ["B-007", "产品", "创建非 MVP 功能清单", "好想法需要被保存，但不能干扰 MVP", "中", "小", "待定", "未开始", "作为未来路线图输入"],
-          ["B-008", "设计", "草拟初始用户流程", "产品需要清晰主路径", "高", "中", "待定", "未开始", "从最重要的工作流开始"],
-          ["B-009", "设计", "创建低保真线框图", "在详细设计前先对齐结构", "中", "中", "待定", "未开始", "一开始可以是简单草图"],
-          ["B-010", "技术", "确定技术架构", "避免后期出现高成本返工", "高", "中", "待定", "未开始", "记录取舍和决策理由"],
-          ["B-011", "技术", "搭建开发环境", "团队需要稳定的构建和测试方式", "高", "中", "待定", "未开始", "包含环境搭建说明"],
-          ["B-012", "技术", "构建 MVP 核心流程", "验证项目核心价值", "高", "大", "待定", "未开始", "主要开发里程碑"],
-          ["B-013", "测试", "创建测试检查清单", "MVP 需要可重复验证", "中", "小", "待定", "未开始", "覆盖主流程、边界情况和回归检查"],
-          ["B-014", "运营", "建立每周复盘节奏", "项目需要稳定的进度追踪", "高", "小", "待定", "未开始", "周计划、周中检查、周末复盘"],
-          ["B-015", "文档", "维护决策记录", "重要决策不应散落在聊天中", "中", "小", "待定", "未开始", "记录日期、决策、负责人和理由"],
-          ["B-016", "风险", "创建风险登记表", "风险需要在变成阻塞前被看见", "高", "小", "待定", "未开始", "每周复查一次"]
+          ["B-001", "产品", "战略", "定义项目一句话定位", "团队需要对 1mod 是什么形成共同理解", "高", "待定", "未开始", "这句话应成为项目的北极星"],
+          ["B-002", "产品", "战略", "定义目标用户群体", "项目规划需要清晰的用户焦点", "高", "待定", "未开始", "包含核心用户和次要用户"],
+          ["B-003", "产品", "战略", "定义 MVP 范围", "第一版需要明确边界", "高", "待定", "未开始", "区分必须做和以后再做"],
+          ["B-004", "市场", "调研", "调研类似项目或产品", "减少认知盲区和定位风险", "中", "待定", "未开始", "记录优势、弱点和机会空白"],
+          ["B-005", "产品", "调研", "编写 3-5 个核心用户场景", "功能应对应真实使用场景", "高", "待定", "未开始", "用用户场景验证 MVP 功能"],
+          ["B-006", "产品", "需求", "创建 MVP 功能清单", "开发需要清晰需求", "高", "待定", "未开始", "每个功能应关联到一个用户场景"],
+          ["B-007", "产品", "需求", "创建非 MVP 功能清单", "好想法需要被保存，但不能干扰 MVP", "中", "待定", "未开始", "作为未来路线图输入"],
+          ["B-008", "前端", "设计", "草拟初始用户流程", "产品需要清晰主路径", "高", "待定", "未开始", "从最重要的工作流开始"],
+          ["B-009", "前端", "设计", "创建低保真线框图", "在详细设计前先对齐结构", "中", "待定", "未开始", "一开始可以是简单草图"],
+          ["B-010", "后端", "技术", "确定技术架构", "避免后期出现高成本返工", "高", "待定", "未开始", "记录取舍和决策理由"],
+          ["B-011", "后端", "技术", "搭建开发环境", "团队需要稳定的构建和测试方式", "高", "待定", "未开始", "包含环境搭建说明"],
+          ["B-012", "后端", "开发", "构建 MVP 核心流程", "验证项目核心价值", "高", "待定", "未开始", "主要开发里程碑"],
+          ["B-013", "测试", "测试", "创建测试检查清单", "MVP 需要可重复验证", "中", "待定", "未开始", "覆盖主流程、边界情况和回归检查"],
+          ["B-014", "运营", "运营", "建立每周复盘节奏", "项目需要稳定的进度追踪", "高", "待定", "未开始", "周计划、周中检查、周末复盘"],
+          ["B-015", "运营", "文档", "维护决策记录", "重要决策不应散落在聊天中", "中", "待定", "未开始", "记录日期、决策、负责人和理由"],
+          ["B-016", "产品", "风险", "创建风险登记表", "风险需要在变成阻塞前被看见", "高", "待定", "未开始", "每周复查一次"]
         ]
       },
       {
@@ -386,11 +673,10 @@
         description: "说明每类管理工具的用途、字段和更新节奏。",
         headers: ["工具/表格", "用途", "推荐字段", "更新节奏", "负责人", "备注"],
         rows: [
-          ["路线图", "展示项目各阶段方向", "阶段、时间范围、目标、交付物、成功标准、状态", "每 2-4 周复查", "项目负责人", "保持高层级和相对稳定"],
-          ["里程碑计划", "标记关键节点和阶段验收点", "里程碑编号、名称、对应阶段、目标日期、核心目标、验收标准、负责人、状态、备注", "每周检查，每个阶段结束时更新", "项目负责人", "用来判断项目是否真正进入下一阶段"],
-          ["月度 OKR", "聚焦本月最重要目标和可衡量结果", "月份、目标 O、关键结果 KR、衡量方式、当前值、目标值、负责人、进度、状态、备注", "每周检查，月底复盘", "项目负责人", "适合把路线图和待办事项转成月度执行重点"],
-          ["待办事项池", "存放所有任务、想法、问题和改进项", "编号、类别、事项、用户/问题、优先级、工作量、负责人、状态、备注", "持续更新", "项目负责人/产品负责人", "这是所有待处理事项的统一入口"],
-          ["每周计划", "选择本周真正重要的少量任务", "周次、目标、任务、负责人、预期结果、状态", "每周更新", "项目负责人", "避免一周塞入过多任务"],
+          ["路线图", "面向老板展示项目阶段、管理关注点和月度推进节奏", "月份、阶段、本月目标、老板关注点、重点任务、预期成果、负责人、状态、备注", "每月规划，每周检查", "项目负责人", "支持美观时间轴、倒叙展示、新增月份和删除月份"],
+          ["月度 OKR", "像飞书 OKR 一样按月份、目标 O 和关键结果 KR 管理", "月份、目标 O、关键结果 KR、衡量方式、责任人、权重、进度、备注", "每周检查，月底复盘", "项目负责人", "HTML 版支持月份展开/收缩、倒叙展示，以及新增/删减 OKR 月份、O 和 KR"],
+          ["待办事项", "存放所有任务、想法、问题和改进项", "编号、归属、模块、事项、用户/问题、优先级、负责人、状态、备注", "持续更新", "项目负责人/产品负责人", "支持在表头通过下拉按钮按归属、负责人和状态筛选"],
+          ["每周计划", "选择本周真正重要的少量任务", "周次、目标、任务、负责人、预期结果、完成情况、遇见问题", "每周更新", "项目负责人", "方便周会复盘完成度和阻塞点"],
           ["任务看板", "跟踪当前正在推进的工作", "待处理、进行中、待评审、已完成、阻塞", "每天或每个工作时段更新", "全体成员", "可用 Notion、Trello、GitHub Projects、Linear 或电子表格管理"],
           ["决策记录", "记录重要选择", "日期、决策、背景、考虑过的选项、理由、负责人", "每次做出关键决策时更新", "项目负责人", "避免重复争论"],
           ["风险登记表", "跟踪影响时间、质量、范围或可行性的风险", "风险、影响、概率、缓解措施、负责人、状态", "每周复查", "项目负责人", "保持实用，不做形式主义"],
@@ -401,12 +687,12 @@
       {
         id: "weekly",
         title: "每周计划",
-        description: "把本周目标拆成少量明确任务，避免计划过载。",
-        headers: ["周次", "目标", "任务", "负责人", "预期结果", "状态"],
+        description: "按周分组管理一周内的多人任务、负责人、优先级、截止时间、完成情况和问题。",
+        headers: ["周次", "周目标", "任务类型", "任务", "负责人", "优先级", "截止时间", "预期结果", "完成情况", "遇见问题"],
         rows: [
-          ["第 1 周", "清晰定义项目", "编写项目一句话定位", "待定", "一句清晰的项目定位", "未开始"],
-          ["第 1 周", "清晰定义项目", "确认目标用户", "待定", "核心用户和次要用户列表", "未开始"],
-          ["第 1 周", "清晰定义项目", "草拟 MVP 范围", "待定", "必须做和以后再做的清单", "未开始"]
+          ["第 1 周", "清晰定义项目", "产品规划", "编写项目一句话定位", "待定", "高", "周五", "一句清晰的项目定位", "未开始", ""],
+          ["第 1 周", "清晰定义项目", "用户研究", "确认目标用户", "待定", "高", "周五", "核心用户和次要用户列表", "未开始", ""],
+          ["第 1 周", "清晰定义项目", "范围管理", "草拟 MVP 范围", "待定", "高", "周五", "必须做和以后再做的清单", "未开始", ""]
         ]
       },
       {
@@ -415,7 +701,10 @@
         description: "记录关键选择、背景和理由，避免重要判断散落在聊天中。",
         headers: ["日期", "决策", "背景", "考虑过的选项", "理由", "负责人"],
         rows: [
-          ["YYYY-MM-DD", "待定", "待定", "待定", "待定", "待定"]
+          ["2026-07-07", "项目采用先做 MVP、再公开测试、最后发布准备的阶段推进方式", "1mod 仍处于早期规划阶段，需要控制范围并尽快验证核心价值", "一次性做完整版本；先做可运行原型；先完成文档再开发", "先做 MVP 可以降低范围失控风险，也便于用真实反馈修正方向", "项目负责人"],
+          ["2026-07-07", "项目管理文档同时维护 Markdown 版和可编辑 HTML 版", "需要既能沉淀正式文档，又能在浏览器中快速编辑、筛选和导出", "只维护 Markdown；只维护 HTML；两份同步维护", "Markdown 适合长期归档，HTML 适合日常管理和老板查看", "项目负责人"],
+          ["2026-07-07", "路线图按月份管理，并用时间轴展示重点事项", "老板汇报更关注月度节奏和关键结果，而不是过细的内部任务", "按阶段编号展示；按月份展示；只保留待办列表", "按月份更容易理解项目走势，也方便和月度 OKR、周计划联动", "项目负责人"],
+          ["2026-07-07", "待办事项状态统一为未开始、已开始、暂停中、已完成、已取消", "自由输入状态不利于统计和筛选", "自由文本；固定下拉；按看板列维护", "固定状态更适合筛选、复盘和后续统计", "项目负责人"]
         ]
       },
       {
@@ -438,16 +727,27 @@
     const sections = document.getElementById("sections");
     const pageTitle = document.getElementById("pageTitle");
     const pageDescription = document.getElementById("pageDescription");
+    const addRowButton = document.getElementById("addRowButton");
+    const deleteRowButton = document.getElementById("deleteRowButton");
     const addMonthButton = document.getElementById("addMonthButton");
+    const deleteMonthButton = document.getElementById("deleteMonthButton");
+    const addWeekButton = document.getElementById("addWeekButton");
+    const deleteWeekButton = document.getElementById("deleteWeekButton");
+    const addOkrMonthButton = document.getElementById("addOkrMonthButton");
+    const deleteOkrMonthButton = document.getElementById("deleteOkrMonthButton");
+    const addObjectiveButton = document.getElementById("addObjectiveButton");
+    const deleteObjectiveButton = document.getElementById("deleteObjectiveButton");
+    const addKrButton = document.getElementById("addKrButton");
+    const deleteKrButton = document.getElementById("deleteKrButton");
     const status = document.getElementById("status");
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return structuredClone(defaultData);
+      if (!saved) return orderSections(structuredClone(defaultData));
       try {
         return mergeWithDefaults(JSON.parse(saved));
       } catch {
-        return structuredClone(defaultData);
+        return orderSections(structuredClone(defaultData));
       }
     }
 
@@ -461,21 +761,115 @@
           merged.push(structuredClone(defaultSection));
           return;
         }
+        existing.title = defaultSection.title;
+        existing.description = defaultSection.description;
 
-        if (existing.id === "milestones" && !existing.monthPlans) {
-          existing.monthPlans = structuredClone(defaultSection.monthPlans);
+        if (existing.id === "roadmap") {
+          const oldMilestones = merged.find((section) => section.id === "milestones");
+          if (oldMilestones?.rows?.length) {
+            existing.headers = [...defaultSection.headers];
+            existing.rows = oldMilestones.rows.map((row) => [
+              row[0] || "",
+              row[2] || "",
+              row[1] || "",
+              row[4] || "",
+              row[3] || "",
+              row[4] || "",
+              row[5] || "待定",
+              row[6] || "未开始",
+              row[7] || ""
+            ]);
+          } else if (existing.headers.includes("关键交付物") || existing.headers.includes("时间范围")) {
+            existing.headers = [...defaultSection.headers];
+            existing.rows = defaultSection.rows.map((row) => [...row]);
+          }
+        }
+
+        if (existing.id === "backlog") {
+          const workloadIndex = existing.headers.indexOf("工作量");
+          if (workloadIndex !== -1) {
+            existing.headers.splice(workloadIndex, 1);
+            existing.rows = existing.rows.map((row) => {
+              const nextRow = [...row];
+              nextRow.splice(workloadIndex, 1);
+              return nextRow;
+            });
+          }
+
+          const categoryIndex = existing.headers.indexOf("类别");
+          if (categoryIndex !== -1) {
+            existing.headers = [...defaultSection.headers];
+            existing.rows = existing.rows.map((row) => {
+              const moduleName = row[categoryIndex] || "";
+              return [
+                row[0] || "",
+                inferBacklogOwnership(moduleName),
+                moduleName,
+                row[2] || "",
+                row[3] || "",
+                row[4] || "",
+                row[5] || "",
+                row[6] || "未开始",
+                row[7] || ""
+              ];
+            });
+          }
+
+          if (!existing.headers.includes("模块")) {
+            existing.headers = [...defaultSection.headers];
+            existing.rows = defaultSection.rows.map((row) => [...row]);
+          }
+        }
+
+        if (existing.id === "weekly") {
+          existing.rows = normalizeWeeklyRows(existing);
+          existing.headers = [...defaultSection.headers];
+        }
+
+        if (existing.id === "monthly-okr" && existing.headers.includes("当前值")) {
+          existing.headers = [...defaultSection.headers];
+          existing.rows = existing.rows.map((row) => [
+            row[0] || "",
+            row[1] || "",
+            row[2] || "",
+            row[3] || "",
+            row[6] || "待定",
+            "0%",
+            row[7] || "0%",
+            row[9] || ""
+          ]);
+        }
+
+        if (existing.id === "decisions" && existing.rows.length === 1 && existing.rows[0][0] === "YYYY-MM-DD") {
+          existing.rows = defaultSection.rows.map((row) => [...row]);
         }
 
         if (existing.id === "tools") {
           defaultSection.rows.forEach((defaultRow) => {
             const toolName = defaultRow[0];
-            const hasTool = existing.rows.some((row) => row[0] === toolName);
-            if (!hasTool) existing.rows.push([...defaultRow]);
+            const existingRow = existing.rows.find((row) => row[0] === toolName);
+            if (existingRow && ["路线图", "待办事项", "每周计划"].includes(toolName)) {
+              existing.rows[existing.rows.indexOf(existingRow)] = [...defaultRow];
+            } else if (!existingRow) {
+              existing.rows.push([...defaultRow]);
+            }
           });
+          existing.rows = existing.rows.filter((row) => row[0] !== "里程碑计划");
+          existing.rows = existing.rows.filter((row) => row[0] !== "待办事项池");
         }
       });
 
-      return merged;
+      return orderSections(merged.filter((section) => section.id !== "milestones"));
+    }
+
+    function orderSections(sections) {
+      return [...sections].sort((a, b) => {
+        const orderA = SECTION_ORDER.indexOf(a.id);
+        const orderB = SECTION_ORDER.indexOf(b.id);
+        const safeA = orderA === -1 ? SECTION_ORDER.length : orderA;
+        const safeB = orderB === -1 ? SECTION_ORDER.length : orderB;
+        return safeA - safeB;
+      });
     }
 
     function saveData() {
@@ -504,13 +898,17 @@
         block.className = "section";
         block.dataset.id = section.id;
 
-        block.appendChild(createEditableTable(section.headers, section.rows, (rowIndex, cellIndex, value) => {
-          data.find((item) => item.id === section.id).rows[rowIndex][cellIndex] = value;
-          saveData();
-        }));
+        if (section.id === "roadmap") block.appendChild(createMonthTimeline(section));
 
-        if (section.id === "milestones" && section.monthPlans) {
-          renderMonthPlans(block, section);
+        if (section.id === "monthly-okr") {
+          block.appendChild(createOkrBoard(section));
+        } else if (section.id === "weekly") {
+          block.appendChild(createWeeklyBoard(section));
+        } else {
+          block.appendChild(createEditableTable(section, getVisibleRows(section), (rowIndex, cellIndex, value) => {
+            data.find((item) => item.id === section.id).rows[rowIndex][cellIndex] = value;
+            saveData();
+          }));
         }
 
         sections.appendChild(block);
@@ -519,7 +917,282 @@
       switchSection(activeId);
     }
 
-    function createEditableTable(headers, rows, onChange) {
+    function createMonthTimeline(section) {
+      const wrap = document.createElement("div");
+      wrap.className = "month-timeline";
+      getRowsByMonthDesc(section.rows).forEach((row) => {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.innerHTML = `
+          <div class="timeline-meta">
+            ${escapeHtml(row[0] || "")}
+            <span class="timeline-status">${escapeHtml(row[7] || "未开始")}</span>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-title">${escapeHtml(row[2] || "")}</div>
+            <div class="timeline-text">${escapeHtml(row[4] || "")}</div>
+            <div class="timeline-text">预期成果：${escapeHtml(row[5] || "")}</div>
+          </div>
+        `;
+        wrap.appendChild(item);
+      });
+      return wrap;
+    }
+
+    function createOkrBoard(section) {
+      const board = document.createElement("div");
+      board.className = "okr-board";
+      groupOkrRows(section.rows).forEach((monthGroup) => {
+        const monthBlock = document.createElement("div");
+        monthBlock.className = "okr-month";
+
+        const monthHeader = document.createElement("div");
+        monthHeader.className = "okr-month-header";
+        const monthTitle = createOkrEditableCell(monthGroup.month, (value) => {
+          monthGroup.rows.forEach(({ index }) => {
+            section.rows[index][0] = value;
+          });
+          okrCollapsedMonths[value] = okrCollapsedMonths[monthGroup.month] || false;
+          delete okrCollapsedMonths[monthGroup.month];
+          saveData();
+          render();
+          switchSection("monthly-okr");
+        });
+        monthTitle.className = "okr-month-title";
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "okr-toggle";
+        toggle.textContent = okrCollapsedMonths[monthGroup.month] ? "展开" : "收缩";
+        toggle.addEventListener("click", () => {
+          okrCollapsedMonths[monthGroup.month] = !okrCollapsedMonths[monthGroup.month];
+          render();
+          switchSection("monthly-okr");
+        });
+        monthHeader.appendChild(monthTitle);
+        monthHeader.appendChild(toggle);
+        monthBlock.appendChild(monthHeader);
+
+        if (!okrCollapsedMonths[monthGroup.month]) monthGroup.objectives.forEach((objectiveGroup) => {
+          const objectiveBlock = document.createElement("div");
+          objectiveBlock.className = "okr-objective";
+
+          const objectiveTitle = createOkrEditableCell(objectiveGroup.objective, (value) => {
+            objectiveGroup.rows.forEach(({ index }) => {
+              section.rows[index][1] = value;
+            });
+            saveData();
+            render();
+            switchSection("monthly-okr");
+          });
+          objectiveTitle.className = "okr-objective-title";
+          objectiveBlock.appendChild(objectiveTitle);
+
+          const krList = document.createElement("div");
+          krList.className = "okr-kr-list";
+          objectiveGroup.rows.forEach(({ row, index }) => {
+            const kr = document.createElement("div");
+            kr.className = "okr-kr";
+            [
+              [2, "关键结果 KR"],
+              [3, "衡量方式"],
+              [4, "责任人"],
+              [5, "权重"],
+              [6, "进度"],
+              [7, "备注"]
+            ].forEach(([cellIndex, label]) => {
+              const field = document.createElement("div");
+              const labelEl = document.createElement("span");
+              labelEl.className = "okr-label";
+              labelEl.textContent = label;
+              const cell = createOkrEditableCell(row[cellIndex] || "", (value) => {
+                section.rows[index][cellIndex] = value;
+                saveData();
+              });
+              cell.classList.add("okr-cell");
+              field.appendChild(labelEl);
+              field.appendChild(cell);
+              kr.appendChild(field);
+            });
+            krList.appendChild(kr);
+          });
+          objectiveBlock.appendChild(krList);
+          monthBlock.appendChild(objectiveBlock);
+        });
+
+        board.appendChild(monthBlock);
+      });
+      return board;
+    }
+
+    function createOkrEditableCell(value, onChange) {
+      const cell = document.createElement("div");
+      cell.contentEditable = "true";
+      cell.textContent = value || "";
+      cell.addEventListener("blur", () => onChange(cell.textContent));
+      return cell;
+    }
+
+    function createWeeklyBoard(section) {
+      const board = document.createElement("div");
+      board.className = "weekly-board";
+      groupWeeklyRows(section.rows).forEach((weekGroup) => {
+        const card = document.createElement("div");
+        card.className = "weekly-card";
+
+        const header = document.createElement("div");
+        header.className = "weekly-header";
+        const weekTitle = createWeeklyEditableCell(weekGroup.week, (value) => {
+          weekGroup.rows.forEach(({ index }) => {
+            section.rows[index][0] = value;
+          });
+          saveData();
+          render();
+          switchSection("weekly");
+        });
+        weekTitle.className = "weekly-title";
+        const weekGoal = createWeeklyEditableCell(weekGroup.goal, (value) => {
+          weekGroup.rows.forEach(({ index }) => {
+            section.rows[index][1] = value;
+          });
+          saveData();
+        });
+        weekGoal.className = "weekly-goal";
+        header.appendChild(weekTitle);
+        header.appendChild(weekGoal);
+        card.appendChild(header);
+
+        const tableWrap = document.createElement("div");
+        tableWrap.className = "table-wrap";
+        const table = document.createElement("table");
+        table.className = "weekly-table";
+        const displayColumns = [
+          [2, "任务类型"],
+          [3, "任务"],
+          [4, "负责人"],
+          [5, "优先级"],
+          [6, "截止时间"],
+          [7, "预期结果"],
+          [8, "完成情况"],
+          [9, "遇见问题"]
+        ];
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        displayColumns.forEach(([, label]) => {
+          const th = document.createElement("th");
+          th.textContent = label;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        weekGroup.rows.forEach(({ row, index }) => {
+          const tr = document.createElement("tr");
+          displayColumns.forEach(([cellIndex]) => {
+            const td = document.createElement("td");
+            const cell = createWeeklyEditableCell(row[cellIndex] || "", (value) => {
+              section.rows[index][cellIndex] = value;
+              saveData();
+            });
+            cell.className = "weekly-cell";
+            td.appendChild(cell);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        card.appendChild(tableWrap);
+        board.appendChild(card);
+      });
+      return board;
+    }
+
+    function createWeeklyEditableCell(value, onChange) {
+      const cell = document.createElement("div");
+      cell.contentEditable = "true";
+      cell.textContent = value || "";
+      cell.addEventListener("blur", () => onChange(cell.textContent));
+      return cell;
+    }
+
+    function groupWeeklyRows(rows) {
+      const groups = [];
+      rows.forEach((row, index) => {
+        const week = row[0] || "未填写周次";
+        let group = groups.find((item) => item.week === week);
+        if (!group) {
+          group = { week, goal: row[1] || "未填写周目标", rows: [] };
+          groups.push(group);
+        }
+        group.rows.push({ row, index });
+      });
+      return groups.sort((a, b) => compareWeekText(a.week, b.week));
+    }
+
+    function groupOkrRows(rows) {
+      const months = [];
+      rows.forEach((row, index) => {
+        const month = row[0] || "未填写月份";
+        let monthGroup = months.find((item) => item.month === month);
+        if (!monthGroup) {
+          monthGroup = { month, rows: [], objectives: [] };
+          months.push(monthGroup);
+        }
+        monthGroup.rows.push({ row, index });
+
+        const objective = row[1] || "未填写目标 O";
+        let objectiveGroup = monthGroup.objectives.find((item) => item.objective === objective);
+        if (!objectiveGroup) {
+          objectiveGroup = { objective, rows: [] };
+          monthGroup.objectives.push(objectiveGroup);
+        }
+        objectiveGroup.rows.push({ row, index });
+      });
+      return months.sort((a, b) => compareOkrMonthText(b.month, a.month));
+    }
+
+    function compareOkrMonthText(a, b) {
+      const dateA = parseMonthText(a);
+      const dateB = parseMonthText(b);
+      if (dateA && dateB) return (dateA.year * 12 + dateA.month) - (dateB.year * 12 + dateB.month);
+      const numberA = parseOkrMonthNumber(a);
+      const numberB = parseOkrMonthNumber(b);
+      if (numberA && numberB) return numberA - numberB;
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function getFilterOptions(section, header) {
+      const index = section.headers.indexOf(header);
+      const values = section.rows.map((row) => row[index]).filter(Boolean);
+      return ["全部", ...Array.from(new Set(values))];
+    }
+
+    function getVisibleRows(section) {
+      if (section.id === "roadmap") {
+        return section.rows
+          .map((row, index) => ({ row, index }))
+          .sort((a, b) => compareMonthText(b.row[0], a.row[0]) || b.index - a.index);
+      }
+
+      if (section.id !== "backlog") {
+        return section.rows.map((row, index) => ({ row, index }));
+      }
+
+      const ownershipIndex = section.headers.indexOf("归属");
+      const ownerIndex = section.headers.indexOf("负责人");
+      const statusIndex = section.headers.indexOf("状态");
+      return section.rows
+        .map((row, index) => ({ row, index }))
+        .filter(({ row }) => (
+          (backlogFilters.ownership === "全部" || row[ownershipIndex] === backlogFilters.ownership) &&
+          (backlogFilters.owner === "全部" || row[ownerIndex] === backlogFilters.owner) &&
+          (backlogFilters.status === "全部" || row[statusIndex] === backlogFilters.status)
+        ));
+    }
+
+    function createEditableTable(section, visibleRows, onChange) {
+      const { headers } = section;
       const tableWrap = document.createElement("div");
       tableWrap.className = "table-wrap";
 
@@ -528,20 +1201,30 @@
       const headerRow = document.createElement("tr");
       headers.forEach((header) => {
         const th = document.createElement("th");
-        th.textContent = header;
+        if (isBacklogFilterHeader(section, header)) {
+          th.appendChild(createBacklogHeaderFilter(section, header));
+        } else {
+          th.textContent = header;
+        }
         headerRow.appendChild(th);
       });
       thead.appendChild(headerRow);
       table.appendChild(thead);
 
       const tbody = document.createElement("tbody");
-      rows.forEach((row, rowIndex) => {
+      visibleRows.forEach(({ row, index: rowIndex }) => {
         const tr = document.createElement("tr");
         headers.forEach((_, cellIndex) => {
           const td = document.createElement("td");
-          td.contentEditable = "true";
-          td.textContent = row[cellIndex] || "";
-          td.addEventListener("input", () => onChange(rowIndex, cellIndex, td.textContent));
+          if (isBacklogOwnershipCell(section, cellIndex)) {
+            td.appendChild(createCellSelect(BACKLOG_OWNERSHIP_OPTIONS, row[cellIndex], "产品", (value) => onChange(rowIndex, cellIndex, value)));
+          } else if (isBacklogStatusCell(section, cellIndex)) {
+            td.appendChild(createCellSelect(BACKLOG_STATUS_OPTIONS, row[cellIndex], "未开始", (value) => onChange(rowIndex, cellIndex, value)));
+          } else {
+            td.contentEditable = "true";
+            td.textContent = row[cellIndex] || "";
+            td.addEventListener("input", () => onChange(rowIndex, cellIndex, td.textContent));
+          }
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
@@ -552,21 +1235,96 @@
       return tableWrap;
     }
 
-    function renderMonthPlans(block, section) {
-      const title = document.createElement("h3");
-      title.className = "subsection-title";
-      title.textContent = section.monthPlans.title;
-      block.appendChild(title);
+    function createBacklogHeaderFilter(section, header) {
+      const wrap = document.createElement("div");
+      wrap.className = "table-filter-header";
+      const label = document.createElement("span");
+      label.className = "table-filter-label";
+      label.textContent = header;
+      const select = document.createElement("select");
+      select.className = "filter-select";
+      select.title = `筛选${header}`;
+      const key = getBacklogFilterKey(header);
+      const options = header === "归属" ? ["全部", ...BACKLOG_OWNERSHIP_OPTIONS] : getFilterOptions(section, header);
+      options.forEach((option) => {
+        const item = document.createElement("option");
+        item.value = option;
+        item.textContent = option === "全部" ? "▽" : option;
+        select.appendChild(item);
+      });
+      select.value = backlogFilters[key];
+      select.addEventListener("change", () => {
+        backlogFilters[key] = select.value;
+        render();
+        switchSection("backlog");
+      });
+      wrap.appendChild(label);
+      wrap.appendChild(select);
+      return wrap;
+    }
 
-      const note = document.createElement("p");
-      note.className = "subsection-note";
-      note.textContent = "从 2026年7月 开始按月拆解里程碑。点击右上角“新增月份”可继续追加下一个月份。";
-      block.appendChild(note);
+    function createCellSelect(options, value, fallback, onChange) {
+      const select = document.createElement("select");
+      select.className = "cell-select";
+      options.forEach((option) => {
+        const item = document.createElement("option");
+        item.value = option;
+        item.textContent = option;
+        select.appendChild(item);
+      });
+      select.value = options.includes(value) ? value : fallback;
+      select.addEventListener("change", () => onChange(select.value));
+      return select;
+    }
 
-      block.appendChild(createEditableTable(section.monthPlans.headers, section.monthPlans.rows, (rowIndex, cellIndex, value) => {
-        data.find((item) => item.id === section.id).monthPlans.rows[rowIndex][cellIndex] = value;
-        saveData();
-      }));
+    function isBacklogFilterHeader(section, header) {
+      return section.id === "backlog" && ["归属", "负责人", "状态"].includes(header);
+    }
+
+    function getBacklogFilterKey(header) {
+      if (header === "归属") return "ownership";
+      if (header === "负责人") return "owner";
+      return "status";
+    }
+
+    function isBacklogOwnershipCell(section, cellIndex) {
+      return section.id === "backlog" && section.headers[cellIndex] === "归属";
+    }
+
+    function isBacklogStatusCell(section, cellIndex) {
+      return section.id === "backlog" && section.headers[cellIndex] === "状态";
+    }
+
+    function getRowsByMonthDesc(rows) {
+      return rows
+        .map((row, index) => ({ row, index }))
+        .sort((a, b) => compareMonthText(b.row[0], a.row[0]) || b.index - a.index)
+        .map(({ row }) => row);
+    }
+
+    function compareMonthText(a, b) {
+      const dateA = parseMonthText(a);
+      const dateB = parseMonthText(b);
+      if (dateA && dateB) return (dateA.year * 12 + dateA.month) - (dateB.year * 12 + dateB.month);
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function inferBacklogOwnership(moduleName) {
+      if (["运营", "文档"].includes(moduleName)) return "运营";
+      if (["调研"].includes(moduleName)) return "市场";
+      if (["设计"].includes(moduleName)) return "前端";
+      if (["技术", "开发"].includes(moduleName)) return "后端";
+      if (["测试"].includes(moduleName)) return "测试";
+      return "产品";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     function switchSection(id) {
@@ -580,35 +1338,261 @@
       document.querySelectorAll(".section").forEach((block) => {
         block.classList.toggle("active", block.dataset.id === id);
       });
-      addMonthButton.style.display = id === "milestones" ? "inline-block" : "none";
+      const isRoadmap = id === "roadmap";
+      const isOkr = id === "monthly-okr";
+      const isWeekly = id === "weekly";
+      addRowButton.style.display = isRoadmap || isOkr ? "none" : "inline-block";
+      deleteRowButton.style.display = isRoadmap || isOkr ? "none" : "inline-block";
+      addMonthButton.style.display = isRoadmap ? "inline-block" : "none";
+      deleteMonthButton.style.display = isRoadmap ? "inline-block" : "none";
+      addWeekButton.style.display = isWeekly ? "inline-block" : "none";
+      deleteWeekButton.style.display = isWeekly ? "inline-block" : "none";
+      addOkrMonthButton.style.display = isOkr ? "inline-block" : "none";
+      deleteOkrMonthButton.style.display = isOkr ? "inline-block" : "none";
+      addObjectiveButton.style.display = isOkr ? "inline-block" : "none";
+      deleteObjectiveButton.style.display = isOkr ? "inline-block" : "none";
+      addKrButton.style.display = isOkr ? "inline-block" : "none";
+      deleteKrButton.style.display = isOkr ? "inline-block" : "none";
     }
 
-    document.getElementById("addRowButton").addEventListener("click", () => {
+    addRowButton.addEventListener("click", () => {
       const section = data.find((item) => item.id === activeId);
-      section.rows.push(section.headers.map(() => ""));
+      if (section.id === "backlog") {
+        section.rows.push(section.headers.map((header) => {
+          if (header === "归属") return "产品";
+          if (header === "状态") return "未开始";
+          return "";
+        }));
+      } else if (section.id === "weekly") {
+        section.rows.push(createWeeklyTaskRow(section.rows));
+      } else {
+        section.rows.push(section.headers.map(() => ""));
+      }
       saveData();
       render();
     });
 
-    addMonthButton.addEventListener("click", () => {
-      const section = data.find((item) => item.id === "milestones");
-      if (!section.monthPlans) return;
-      section.monthPlans.rows.push(createNextMonthPlanRow(section.monthPlans.rows));
+    deleteRowButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === activeId);
+      if (!section || section.rows.length === 0) return;
+      if (!confirm("确认减去当前表格最后一行？")) return;
+      section.rows.pop();
       saveData();
       render();
-      switchSection("milestones");
+      switchSection(activeId);
+    });
+
+    addMonthButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "roadmap");
+      section.rows.push(createNextMonthPlanRow(section.rows));
+      saveData();
+      render();
+      switchSection("roadmap");
+    });
+
+    deleteMonthButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "roadmap");
+      if (!section || section.rows.length === 0) return;
+      const latestMonth = getLatestMonthText(section.rows);
+      if (!confirm(`确认删除 ${latestMonth}？`)) return;
+      section.rows = section.rows.filter((row) => row[0] !== latestMonth);
+      saveData();
+      render();
+      switchSection("roadmap");
+    });
+
+    addWeekButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "weekly");
+      section.rows.push(...createNextWeekRows(section.rows));
+      saveData();
+      render();
+      switchSection("weekly");
+    });
+
+    deleteWeekButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "weekly");
+      if (!section || section.rows.length === 0) return;
+      const latestWeek = getLatestWeekText(section.rows);
+      if (!confirm(`确认删除 ${latestWeek} 及其全部任务？`)) return;
+      section.rows = section.rows.filter((row) => row[0] !== latestWeek);
+      saveData();
+      render();
+      switchSection("weekly");
+    });
+
+    addOkrMonthButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      section.rows.push(createNextOkrMonthRow(section.rows));
+      saveData();
+      render();
+      switchSection("monthly-okr");
+    });
+
+    deleteOkrMonthButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      if (!section || section.rows.length === 0) return;
+      const latestMonth = getLatestOkrMonthText(section.rows);
+      if (!confirm(`确认删减 ${latestMonth} 及其全部 O/KR？`)) return;
+      section.rows = section.rows.filter((row) => row[0] !== latestMonth);
+      saveData();
+      render();
+      switchSection("monthly-okr");
+    });
+
+    addObjectiveButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      section.rows.push(createNextObjectiveRow(section.rows));
+      saveData();
+      render();
+      switchSection("monthly-okr");
+    });
+
+    deleteObjectiveButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      if (!section || section.rows.length === 0) return;
+      const lastMonth = getLatestOkrMonthText(section.rows);
+      const lastObjective = getLatestObjectiveText(section.rows, lastMonth);
+      if (!confirm(`确认删减 ${lastMonth} 的 ${lastObjective} 及其全部 KR？`)) return;
+      section.rows = section.rows.filter((row) => !(row[0] === lastMonth && row[1] === lastObjective));
+      saveData();
+      render();
+      switchSection("monthly-okr");
+    });
+
+    addKrButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      section.rows.push(createNextKrRow(section.rows));
+      saveData();
+      render();
+      switchSection("monthly-okr");
+    });
+
+    deleteKrButton.addEventListener("click", () => {
+      const section = data.find((item) => item.id === "monthly-okr");
+      if (!section || section.rows.length === 0) return;
+      if (!confirm("确认删减最后一个 KR？")) return;
+      const latestMonth = getLatestOkrMonthText(section.rows);
+      const latestObjective = getLatestObjectiveText(section.rows, latestMonth);
+      for (let index = section.rows.length - 1; index >= 0; index -= 1) {
+        if (section.rows[index][0] === latestMonth && section.rows[index][1] === latestObjective) {
+          section.rows.splice(index, 1);
+          break;
+        }
+      }
+      saveData();
+      render();
+      switchSection("monthly-okr");
     });
 
     function createNextMonthPlanRow(rows) {
       const monthText = getNextMonthText(rows);
-      return [monthText, "填写本月目标", "关联里程碑编号", "填写本月重点任务", "填写预期成果", "待定", "未开始", ""];
+      return [monthText, "填写阶段", "填写本月目标", "填写老板关注点", "填写本月重点任务", "填写预期成果", "待定", "未开始", ""];
+    }
+
+    function createNextWeekRows(rows) {
+      const weekText = getNextWeekText(rows);
+      return [
+        [weekText, "填写本周目标", "产品规划", "填写任务", "待定", "高", "周五", "填写预期结果", "未开始", ""],
+        [weekText, "填写本周目标", "执行推进", "填写任务", "待定", "中", "周五", "填写预期结果", "未开始", ""],
+        [weekText, "填写本周目标", "复盘检查", "填写任务", "待定", "中", "周五", "填写预期结果", "未开始", ""]
+      ];
+    }
+
+    function createWeeklyTaskRow(rows) {
+      const weekText = getLatestWeekText(rows);
+      const latestWeekRows = rows.filter((row) => row[0] === weekText);
+      const weekGoal = latestWeekRows[0]?.[1] || "填写本周目标";
+      return [weekText, weekGoal, "执行推进", "填写任务", "待定", "中", "周五", "填写预期结果", "未开始", ""];
+    }
+
+    function createNextOkrMonthRow(rows) {
+      const monthText = getNextOkrMonthText(rows);
+      okrCollapsedMonths[monthText] = false;
+      return [monthText, "O1：填写本月目标", "KR1：填写关键结果", "填写衡量方式", "待定", "0%", "0%", ""];
+    }
+
+    function createNextObjectiveRow(rows) {
+      const monthText = getLatestOkrMonthText(rows);
+      const nextObjectiveNumber = getNextObjectiveNumber(rows, monthText);
+      okrCollapsedMonths[monthText] = false;
+      return [monthText, `O${nextObjectiveNumber}：填写目标`, "KR1：填写关键结果", "填写衡量方式", "待定", "0%", "0%", ""];
+    }
+
+    function createNextKrRow(rows) {
+      const monthText = getLatestOkrMonthText(rows);
+      const objectiveText = getLatestObjectiveText(rows, monthText);
+      const nextKrNumber = getNextKrNumber(rows, monthText, objectiveText);
+      okrCollapsedMonths[monthText] = false;
+      return [monthText, objectiveText, `KR${nextKrNumber}：填写关键结果`, "填写衡量方式", "待定", "0%", "0%", ""];
+    }
+
+    function getNextOkrMonthText(rows) {
+      const monthValues = rows.map((row) => parseMonthText(row[0])).filter(Boolean);
+      if (monthValues.length) {
+        const lastMonth = monthValues.reduce((latest, item) => (
+          item.year * 12 + item.month > latest.year * 12 + latest.month ? item : latest
+        ));
+        const date = new Date(lastMonth.year, lastMonth.month, 1);
+        return `${date.getFullYear()}年${date.getMonth() + 1}月`;
+      }
+      const monthNumbers = rows.map((row) => parseOkrMonthNumber(row[0])).filter(Boolean);
+      const lastNumber = monthNumbers.length ? Math.max(...monthNumbers) : 0;
+      return `第 ${lastNumber + 1} 月`;
+    }
+
+    function getLatestOkrMonthText(rows) {
+      if (!rows.length) return "第 1 月";
+      return groupOkrRows(rows)[0]?.month || "第 1 月";
+    }
+
+    function getLatestObjectiveText(rows, monthText) {
+      const groups = groupOkrRows(rows);
+      const monthGroup = groups.find((group) => group.month === monthText);
+      return monthGroup?.objectives[monthGroup.objectives.length - 1]?.objective || "O1：填写目标";
+    }
+
+    function parseOkrMonthNumber(value) {
+      const match = String(value || "").match(/第\s*(\d+)\s*月/);
+      return match ? Number(match[1]) : null;
+    }
+
+    function getNextObjectiveNumber(rows, monthText) {
+      const numbers = rows
+        .filter((row) => row[0] === monthText)
+        .map((row) => String(row[1] || "").match(/^O(\d+)/))
+        .filter(Boolean)
+        .map((match) => Number(match[1]));
+      return numbers.length ? Math.max(...numbers) + 1 : 1;
+    }
+
+    function getNextKrNumber(rows, monthText, objectiveText) {
+      const numbers = rows
+        .filter((row) => row[0] === monthText && row[1] === objectiveText)
+        .map((row) => String(row[2] || "").match(/^KR(\d+)/))
+        .filter(Boolean)
+        .map((match) => Number(match[1]));
+      return numbers.length ? Math.max(...numbers) + 1 : 1;
     }
 
     function getNextMonthText(rows) {
-      const lastMonth = [...rows].reverse().map((row) => parseMonthText(row[0])).find(Boolean);
-      const base = lastMonth || { year: 2026, month: 6 };
+      const monthValues = rows.map((row) => parseMonthText(row[0])).filter(Boolean);
+      const base = monthValues.length
+        ? monthValues.reduce((latest, item) => (
+            item.year * 12 + item.month > latest.year * 12 + latest.month ? item : latest
+          ))
+        : { year: 2026, month: 6 };
       const date = new Date(base.year, base.month, 1);
       return `${date.getFullYear()}年${date.getMonth() + 1}月`;
+    }
+
+    function getLatestMonthText(rows) {
+      const monthValues = rows
+        .map((row) => ({ text: row[0], parsed: parseMonthText(row[0]) }))
+        .filter((item) => item.parsed);
+      if (!monthValues.length) return rows[rows.length - 1]?.[0] || "";
+      return monthValues.reduce((latest, item) => (
+        item.parsed.year * 12 + item.parsed.month > latest.parsed.year * 12 + latest.parsed.month ? item : latest
+      )).text;
     }
 
     function parseMonthText(value) {
@@ -617,9 +1601,57 @@
       return { year: Number(match[1]), month: Number(match[2]) };
     }
 
+    function getNextWeekText(rows) {
+      const numbers = rows.map((row) => parseWeekNumber(row[0])).filter(Boolean);
+      const latest = numbers.length ? Math.max(...numbers) : 0;
+      return `第 ${latest + 1} 周`;
+    }
+
+    function getLatestWeekText(rows) {
+      if (!rows.length) return "第 1 周";
+      const groups = groupWeeklyRows(rows);
+      return groups[groups.length - 1]?.week || rows[rows.length - 1][0] || "第 1 周";
+    }
+
+    function compareWeekText(a, b) {
+      const numberA = parseWeekNumber(a);
+      const numberB = parseWeekNumber(b);
+      if (numberA && numberB) return numberA - numberB;
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function parseWeekNumber(value) {
+      const match = String(value || "").match(/第\s*(\d+)\s*周/);
+      return match ? Number(match[1]) : null;
+    }
+
+    function normalizeWeeklyRows(section) {
+      const defaultHeaders = defaultData.find((item) => item.id === "weekly").headers;
+      if (arraysEqual(section.headers, defaultHeaders)) return section.rows.map((row) => [...row]);
+
+      const statusIndex = section.headers.indexOf("状态");
+      const completionIndex = section.headers.indexOf("完成情况");
+      return section.rows.map((row) => [
+        row[section.headers.indexOf("周次")] || "第 1 周",
+        row[section.headers.indexOf("目标")] || row[section.headers.indexOf("周目标")] || "填写本周目标",
+        row[section.headers.indexOf("任务类型")] || "执行推进",
+        row[section.headers.indexOf("任务")] || "",
+        row[section.headers.indexOf("负责人")] || "待定",
+        row[section.headers.indexOf("优先级")] || "中",
+        row[section.headers.indexOf("截止时间")] || "周五",
+        row[section.headers.indexOf("预期结果")] || "",
+        row[completionIndex !== -1 ? completionIndex : statusIndex] || "未开始",
+        row[section.headers.indexOf("遇见问题")] || ""
+      ]);
+    }
+
+    function arraysEqual(a, b) {
+      return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((value, index) => value === b[index]);
+    }
+
     document.getElementById("resetButton").addEventListener("click", () => {
       if (!confirm("确认恢复默认内容？当前浏览器保存的修改会被清除。")) return;
-      data = structuredClone(defaultData);
+      data = orderSections(structuredClone(defaultData));
       localStorage.removeItem(STORAGE_KEY);
       activeId = data[0].id;
       render();
@@ -748,6 +1780,239 @@
       overflow: auto;
     }
 
+    .executive-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .summary-kicker {
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .summary-title {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+
+    .summary-text {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .month-timeline {
+      position: relative;
+      display: block;
+      padding: 4px 0 6px 24px;
+      margin-bottom: 20px;
+    }
+
+    .month-timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 10px;
+      bottom: 16px;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--brand), #c9792b);
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(92px, 140px) 1fr;
+      gap: 14px;
+      padding: 0 0 16px 18px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 3px rgba(23, 107, 135, 0.18);
+    }
+
+    .timeline-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .timeline-meta {
+      align-self: start;
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      padding-top: 8px;
+    }
+
+    .timeline-status {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: #0f3443;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .timeline-title {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+
+    .timeline-text {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .okr-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .okr-month {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .okr-month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #eef3f8;
+    }
+
+    .okr-month-title {
+      color: #263247;
+      font-size: 16px;
+      font-weight: 800;
+      flex: 1;
+    }
+
+    .okr-objective {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .okr-objective-title {
+      margin-bottom: 10px;
+      color: var(--brand);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .okr-kr-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .okr-kr {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .okr-cell {
+      min-height: 34px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.45;
+      background: #ffffff;
+      word-break: break-word;
+    }
+
+    .okr-label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .weekly-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .weekly-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .weekly-header {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.6fr) minmax(220px, 1.4fr);
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: #eef3f8;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .weekly-title {
+      color: var(--brand);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .weekly-goal {
+      color: #263247;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .weekly-table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
     table {
       width: 100%;
       min-width: 980px;
@@ -839,26 +2104,248 @@
         block.className = "section";
         block.dataset.id = section.id;
 
-        block.appendChild(createReadOnlyTable(section.headers, section.rows));
+        if (section.id === "roadmap") block.appendChild(createMonthTimeline(section));
 
-        if (section.id === "milestones" && section.monthPlans) {
-          const title = document.createElement("h3");
-          title.className = "subsection-title";
-          title.textContent = section.monthPlans.title;
-          block.appendChild(title);
-
-          const note = document.createElement("p");
-          note.className = "subsection-note";
-          note.textContent = "从 2026年7月 开始按月拆解里程碑。";
-          block.appendChild(note);
-
-          block.appendChild(createReadOnlyTable(section.monthPlans.headers, section.monthPlans.rows));
+        if (section.id === "monthly-okr") {
+          block.appendChild(createReadOnlyOkrBoard(section));
+        } else if (section.id === "weekly") {
+          block.appendChild(createReadOnlyWeeklyBoard(section));
+        } else {
+          block.appendChild(createReadOnlyTable(section.headers, section.id === "roadmap" ? getRowsByMonthDesc(section.rows) : section.rows));
         }
 
         sections.appendChild(block);
       });
 
       switchSection(activeId);
+    }
+
+    function createMonthTimeline(section) {
+      const wrap = document.createElement("div");
+      wrap.className = "month-timeline";
+      getRowsByMonthDesc(section.rows).forEach((row) => {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.innerHTML = \`
+          <div class="timeline-meta">
+            \${escapeHtml(row[0] || "")}
+            <span class="timeline-status">\${escapeHtml(row[7] || "未开始")}</span>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-title">\${escapeHtml(row[2] || "")}</div>
+            <div class="timeline-text">\${escapeHtml(row[4] || "")}</div>
+            <div class="timeline-text">预期成果：\${escapeHtml(row[5] || "")}</div>
+          </div>
+        \`;
+        wrap.appendChild(item);
+      });
+      return wrap;
+    }
+
+    function getRowsByMonthDesc(rows) {
+      return rows
+        .map((row, index) => ({ row, index }))
+        .sort((a, b) => compareMonthText(b.row[0], a.row[0]) || b.index - a.index)
+        .map(({ row }) => row);
+    }
+
+    function compareMonthText(a, b) {
+      const dateA = parseMonthText(a);
+      const dateB = parseMonthText(b);
+      if (dateA && dateB) return (dateA.year * 12 + dateA.month) - (dateB.year * 12 + dateB.month);
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function parseMonthText(value) {
+      const match = String(value || "").match(/(\\d{4})年(\\d{1,2})月/);
+      if (!match) return null;
+      return { year: Number(match[1]), month: Number(match[2]) };
+    }
+
+    function createReadOnlyOkrBoard(section) {
+      const board = document.createElement("div");
+      board.className = "okr-board";
+      groupOkrRows(section.rows).forEach((monthGroup) => {
+        const monthBlock = document.createElement("div");
+        monthBlock.className = "okr-month";
+        const monthHeader = document.createElement("div");
+        monthHeader.className = "okr-month-header";
+        const monthTitle = document.createElement("div");
+        monthTitle.className = "okr-month-title";
+        monthTitle.textContent = monthGroup.month;
+        monthHeader.appendChild(monthTitle);
+        monthBlock.appendChild(monthHeader);
+
+        monthGroup.objectives.forEach((objectiveGroup) => {
+          const objectiveBlock = document.createElement("div");
+          objectiveBlock.className = "okr-objective";
+          const objectiveTitle = document.createElement("div");
+          objectiveTitle.className = "okr-objective-title";
+          objectiveTitle.textContent = objectiveGroup.objective;
+          objectiveBlock.appendChild(objectiveTitle);
+
+          const krList = document.createElement("div");
+          krList.className = "okr-kr-list";
+          objectiveGroup.rows.forEach(({ row }) => {
+            const kr = document.createElement("div");
+            kr.className = "okr-kr";
+            [
+              [2, "关键结果 KR"],
+              [3, "衡量方式"],
+              [4, "责任人"],
+              [5, "权重"],
+              [6, "进度"],
+              [7, "备注"]
+            ].forEach(([cellIndex, label]) => {
+              const field = document.createElement("div");
+              const labelEl = document.createElement("span");
+              labelEl.className = "okr-label";
+              labelEl.textContent = label;
+              const cell = document.createElement("div");
+              cell.className = "okr-cell";
+              cell.textContent = row[cellIndex] || "";
+              field.appendChild(labelEl);
+              field.appendChild(cell);
+              kr.appendChild(field);
+            });
+            krList.appendChild(kr);
+          });
+          objectiveBlock.appendChild(krList);
+          monthBlock.appendChild(objectiveBlock);
+        });
+        board.appendChild(monthBlock);
+      });
+      return board;
+    }
+
+    function createReadOnlyWeeklyBoard(section) {
+      const board = document.createElement("div");
+      board.className = "weekly-board";
+      groupWeeklyRows(section.rows).forEach((weekGroup) => {
+        const card = document.createElement("div");
+        card.className = "weekly-card";
+
+        const header = document.createElement("div");
+        header.className = "weekly-header";
+        const weekTitle = document.createElement("div");
+        weekTitle.className = "weekly-title";
+        weekTitle.textContent = weekGroup.week;
+        const weekGoal = document.createElement("div");
+        weekGoal.className = "weekly-goal";
+        weekGoal.textContent = weekGroup.goal;
+        header.appendChild(weekTitle);
+        header.appendChild(weekGoal);
+        card.appendChild(header);
+
+        const tableWrap = document.createElement("div");
+        tableWrap.className = "table-wrap";
+        const table = document.createElement("table");
+        table.className = "weekly-table";
+        const columns = [
+          [2, "任务类型"],
+          [3, "任务"],
+          [4, "负责人"],
+          [5, "优先级"],
+          [6, "截止时间"],
+          [7, "预期结果"],
+          [8, "完成情况"],
+          [9, "遇见问题"]
+        ];
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        columns.forEach(([, label]) => {
+          const th = document.createElement("th");
+          th.textContent = label;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        weekGroup.rows.forEach(({ row }) => {
+          const tr = document.createElement("tr");
+          columns.forEach(([cellIndex]) => {
+            const td = document.createElement("td");
+            td.textContent = row[cellIndex] || "";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        card.appendChild(tableWrap);
+        board.appendChild(card);
+      });
+      return board;
+    }
+
+    function groupOkrRows(rows) {
+      const months = [];
+      rows.forEach((row, index) => {
+        const month = row[0] || "未填写月份";
+        let monthGroup = months.find((item) => item.month === month);
+        if (!monthGroup) {
+          monthGroup = { month, rows: [], objectives: [] };
+          months.push(monthGroup);
+        }
+        monthGroup.rows.push({ row, index });
+
+        const objective = row[1] || "未填写目标 O";
+        let objectiveGroup = monthGroup.objectives.find((item) => item.objective === objective);
+        if (!objectiveGroup) {
+          objectiveGroup = { objective, rows: [] };
+          monthGroup.objectives.push(objectiveGroup);
+        }
+        objectiveGroup.rows.push({ row, index });
+      });
+      return months.sort((a, b) => compareOkrMonthText(b.month, a.month));
+    }
+
+    function compareOkrMonthText(a, b) {
+      const dateA = parseMonthText(a);
+      const dateB = parseMonthText(b);
+      if (dateA && dateB) return (dateA.year * 12 + dateA.month) - (dateB.year * 12 + dateB.month);
+      const numberA = parseOkrMonthNumber(a);
+      const numberB = parseOkrMonthNumber(b);
+      if (numberA && numberB) return numberA - numberB;
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function groupWeeklyRows(rows) {
+      const groups = [];
+      rows.forEach((row, index) => {
+        const week = row[0] || "未填写周次";
+        let group = groups.find((item) => item.week === week);
+        if (!group) {
+          group = { week, goal: row[1] || "未填写周目标", rows: [] };
+          groups.push(group);
+        }
+        group.rows.push({ row, index });
+      });
+      return groups.sort((a, b) => compareWeekText(a.week, b.week));
+    }
+
+    function compareWeekText(a, b) {
+      const numberA = parseWeekNumber(a);
+      const numberB = parseWeekNumber(b);
+      if (numberA && numberB) return numberA - numberB;
+      return String(a || "").localeCompare(String(b || ""), "zh-CN");
+    }
+
+    function parseWeekNumber(value) {
+      const match = String(value || "").match(/第\\s*(\\d+)\\s*周/);
+      return match ? Number(match[1]) : null;
+    }
+
+    function parseMonthText(value) {
+      const match = String(value || "").match(/(\\d{4})年(\\d{1,2})月/);
+      if (!match) return null;
+      return { year: Number(match[1]), month: Number(match[2]) };
+    }
+
+    function parseOkrMonthNumber(value) {
+      const match = String(value || "").match(/第\\s*(\\d+)\\s*月/);
+      return match ? Number(match[1]) : null;
     }
 
     function createReadOnlyTable(headers, rows) {
@@ -901,6 +2388,15 @@
       document.querySelectorAll(".section").forEach((block) => {
         block.classList.toggle("active", block.dataset.id === id);
       });
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     render();
