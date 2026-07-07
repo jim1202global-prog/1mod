@@ -613,6 +613,7 @@
     const SECTION_ORDER = ["roadmap", "monthly-okr", "weekly", "backlog", "decisions", "risks", "tools"];
     const backlogFilters = { ownership: "全部", owner: "全部", status: "全部" };
     const okrCollapsedMonths = {};
+    let pinnedWeeklyWeek = null;
 
     const defaultData = [
       {
@@ -1127,7 +1128,18 @@
         }
         group.rows.push({ row, index });
       });
-      return groups.sort((a, b) => compareWeekText(a.week, b.week));
+      return sortWeeklyGroups(groups);
+    }
+
+    function sortWeeklyGroups(groups) {
+      const sorted = [...groups].sort((a, b) => compareWeekText(b.week, a.week));
+      if (!pinnedWeeklyWeek) return sorted;
+
+      const pinnedIndex = sorted.findIndex((group) => group.week === pinnedWeeklyWeek);
+      if (pinnedIndex === -1) return sorted;
+      const [pinned] = sorted.splice(pinnedIndex, 1);
+      sorted.push(pinned);
+      return sorted;
     }
 
     function groupOkrRows(rows) {
@@ -1403,7 +1415,9 @@
 
     addWeekButton.addEventListener("click", () => {
       const section = data.find((item) => item.id === "weekly");
-      section.rows.push(...createNextWeekRows(section.rows));
+      const nextRows = createNextWeekRows(section.rows);
+      pinnedWeeklyWeek = nextRows[0][0];
+      section.rows.push(...nextRows);
       saveData();
       render();
       switchSection("weekly");
@@ -1412,9 +1426,10 @@
     deleteWeekButton.addEventListener("click", () => {
       const section = data.find((item) => item.id === "weekly");
       if (!section || section.rows.length === 0) return;
-      const latestWeek = getLatestWeekText(section.rows);
-      if (!confirm(`确认删除 ${latestWeek} 及其全部任务？`)) return;
-      section.rows = section.rows.filter((row) => row[0] !== latestWeek);
+      const targetWeek = getBottomDisplayedWeekText(section.rows);
+      if (!confirm(`确认删除 ${targetWeek} 及其全部任务？`)) return;
+      section.rows = section.rows.filter((row) => row[0] !== targetWeek);
+      if (pinnedWeeklyWeek === targetWeek) pinnedWeeklyWeek = null;
       saveData();
       render();
       switchSection("weekly");
@@ -1499,7 +1514,7 @@
     }
 
     function createWeeklyTaskRow(rows) {
-      const weekText = getLatestWeekText(rows);
+      const weekText = pinnedWeeklyWeek || getBottomDisplayedWeekText(rows);
       const latestWeekRows = rows.filter((row) => row[0] === weekText);
       const weekGoal = latestWeekRows[0]?.[1] || "填写本周目标";
       return [weekText, weekGoal, "执行推进", "填写任务", "待定", "中", "周五", "填写预期结果", "未开始", ""];
@@ -1608,6 +1623,12 @@
     }
 
     function getLatestWeekText(rows) {
+      if (!rows.length) return "第 1 周";
+      const groups = [...groupWeeklyRows(rows)].filter((group) => group.week !== pinnedWeeklyWeek);
+      return groups[0]?.week || rows[rows.length - 1][0] || "第 1 周";
+    }
+
+    function getBottomDisplayedWeekText(rows) {
       if (!rows.length) return "第 1 周";
       const groups = groupWeeklyRows(rows);
       return groups[groups.length - 1]?.week || rows[rows.length - 1][0] || "第 1 周";
@@ -2322,7 +2343,7 @@
         }
         group.rows.push({ row, index });
       });
-      return groups.sort((a, b) => compareWeekText(a.week, b.week));
+      return groups.sort((a, b) => compareWeekText(b.week, a.week));
     }
 
     function compareWeekText(a, b) {
