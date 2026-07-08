@@ -2103,12 +2103,16 @@
       font-weight: 700;
       line-height: 1.45;
       margin-bottom: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .timeline-text {
       color: var(--muted);
       font-size: 13px;
       line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .okr-board {
@@ -2363,9 +2367,9 @@
         block.className = "section";
         block.dataset.id = section.id;
 
-        if (section.id === "roadmap") block.appendChild(createMonthTimeline(section));
-
-        if (section.id === "monthly-okr") {
+        if (section.id === "roadmap") {
+          block.appendChild(createMonthTimeline(section));
+        } else if (section.id === "monthly-okr") {
           block.appendChild(createReadOnlyOkrBoard(section));
         } else if (section.id === "weekly") {
           block.appendChild(createReadOnlyWeeklyBoard(section));
@@ -2424,8 +2428,9 @@
     function createReadOnlyOkrBoard(section) {
       const board = document.createElement("div");
       board.className = "okr-board";
+      const defaultOpenMonth = getDefaultOpenOkrMonth(section.rows);
       groupOkrRows(section.rows).forEach((monthGroup) => {
-        const isCollapsed = isOkrMonthCollapsed(monthGroup.month);
+        const isCollapsed = isOkrMonthCollapsed(monthGroup.month, defaultOpenMonth);
         const monthBlock = document.createElement("div");
         monthBlock.className = "okr-month";
         monthBlock.classList.toggle("collapsed", isCollapsed);
@@ -2439,7 +2444,7 @@
         toggle.className = "okr-toggle";
         toggle.textContent = isCollapsed ? "展开" : "收缩";
         toggle.addEventListener("click", () => {
-          okrCollapsedMonths[monthGroup.month] = !isOkrMonthCollapsed(monthGroup.month);
+          okrCollapsedMonths[monthGroup.month] = !isOkrMonthCollapsed(monthGroup.month, defaultOpenMonth);
           render();
           switchSection("monthly-okr");
         });
@@ -2493,9 +2498,19 @@
       return board;
     }
 
-    function isOkrMonthCollapsed(monthText) {
+    function isOkrMonthCollapsed(monthText, defaultOpenMonth) {
       if (Object.prototype.hasOwnProperty.call(okrCollapsedMonths, monthText)) return okrCollapsedMonths[monthText];
-      return !isCurrentOkrMonth(monthText);
+      return monthText !== defaultOpenMonth;
+    }
+
+    function getDefaultOpenOkrMonth(rows) {
+      const monthGroups = groupOkrRows(rows);
+      const currentMonth = monthGroups.find((group) => isCurrentOkrMonth(group.month));
+      if (currentMonth) return currentMonth.month;
+      const chronologicalMonths = monthGroups
+        .map((group) => group.month)
+        .sort((a, b) => compareOkrMonthText(a, b));
+      return chronologicalMonths[0] || "";
     }
 
     function isCurrentOkrMonth(monthText) {
