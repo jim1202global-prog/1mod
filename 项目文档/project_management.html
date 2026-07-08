@@ -346,17 +346,46 @@
 
     .okr-kr-list {
       display: grid;
-      gap: 10px;
-    }
-
-    .okr-kr {
-      display: grid;
-      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
-      gap: 8px;
-      align-items: stretch;
-      padding: 10px;
+      gap: 0;
       border: 1px solid var(--line);
       border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .okr-kr-header,
+    .okr-kr-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
+      align-items: stretch;
+    }
+
+    .okr-kr-header {
+      background: #f3f6fa;
+      color: #4a5668;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .okr-kr-header div,
+    .okr-kr-row > div {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .okr-kr-header div:last-child,
+    .okr-kr-row > div:last-child {
+      border-right: 0;
+    }
+
+    .okr-kr-row:last-child > div {
+      border-bottom: 0;
+    }
+
+    .okr-kr-header div {
+      padding: 9px 10px;
+    }
+
+    .okr-kr-row {
       background: #fbfcfe;
     }
 
@@ -364,7 +393,7 @@
       min-height: 34px;
       padding: 7px 8px;
       border: 1px solid transparent;
-      border-radius: 6px;
+      border-radius: 0;
       font-size: 13px;
       line-height: 1.45;
       background: #ffffff;
@@ -375,14 +404,6 @@
       outline: none;
       border-color: var(--accent);
       background: #fff8ec;
-    }
-
-    .okr-label {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
     }
 
     .weekly-board {
@@ -860,6 +881,7 @@
         }
 
         if (existing.id === "monthly-okr") {
+          existing.rows = removeLegacyOkrSummaryRows(existing.rows);
           const hasOldPlaceholder = existing.rows.some((row) => String(row[0] || "").includes("第 1 月"));
           if (hasOldPlaceholder) {
             existing.headers = [...defaultSection.headers];
@@ -1036,27 +1058,31 @@
 
           const krList = document.createElement("div");
           krList.className = "okr-kr-list";
+          const krHeader = document.createElement("div");
+          krHeader.className = "okr-kr-header";
+          ["关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注"].forEach((label) => {
+            const item = document.createElement("div");
+            item.textContent = label;
+            krHeader.appendChild(item);
+          });
+          krList.appendChild(krHeader);
           objectiveGroup.rows.forEach(({ row, index }) => {
             const kr = document.createElement("div");
-            kr.className = "okr-kr";
+            kr.className = "okr-kr-row";
             [
-              [2, "关键结果 KR"],
-              [3, "衡量方式"],
-              [4, "责任人"],
-              [5, "权重"],
-              [6, "进度"],
-              [7, "备注"]
-            ].forEach(([cellIndex, label]) => {
+              [2],
+              [3],
+              [4],
+              [5],
+              [6],
+              [7]
+            ].forEach(([cellIndex]) => {
               const field = document.createElement("div");
-              const labelEl = document.createElement("span");
-              labelEl.className = "okr-label";
-              labelEl.textContent = label;
               const cell = createOkrEditableCell(row[cellIndex] || "", (value) => {
                 section.rows[index][cellIndex] = value;
                 saveData();
               });
               cell.classList.add("okr-cell");
-              field.appendChild(labelEl);
               field.appendChild(cell);
               kr.appendChild(field);
             });
@@ -1720,6 +1746,13 @@
       ]);
     }
 
+    function removeLegacyOkrSummaryRows(rows) {
+      return rows.filter((row) => {
+        const text = row.join(" ");
+        return !(text.includes("产品功能快速闭环") && text.includes("种子用户内测验证"));
+      });
+    }
+
     function arraysEqual(a, b) {
       return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((value, index) => value === b[index]);
     }
@@ -2014,35 +2047,56 @@
 
     .okr-kr-list {
       display: grid;
-      gap: 10px;
-    }
-
-    .okr-kr {
-      display: grid;
-      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
-      gap: 8px;
-      padding: 10px;
+      gap: 0;
       border: 1px solid var(--line);
       border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .okr-kr-header,
+    .okr-kr-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr));
+    }
+
+    .okr-kr-header {
+      background: #f3f6fa;
+      color: #4a5668;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .okr-kr-header div,
+    .okr-kr-row > div {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .okr-kr-header div:last-child,
+    .okr-kr-row > div:last-child {
+      border-right: 0;
+    }
+
+    .okr-kr-row:last-child > div {
+      border-bottom: 0;
+    }
+
+    .okr-kr-header div {
+      padding: 9px 10px;
+    }
+
+    .okr-kr-row {
       background: #fbfcfe;
     }
 
     .okr-cell {
       min-height: 34px;
       padding: 7px 8px;
-      border-radius: 6px;
+      border-radius: 0;
       font-size: 13px;
       line-height: 1.45;
       background: #ffffff;
       word-break: break-word;
-    }
-
-    .okr-label {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
     }
 
     .weekly-board {
@@ -2261,25 +2315,29 @@
 
           const krList = document.createElement("div");
           krList.className = "okr-kr-list";
+          const krHeader = document.createElement("div");
+          krHeader.className = "okr-kr-header";
+          ["关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注"].forEach((label) => {
+            const item = document.createElement("div");
+            item.textContent = label;
+            krHeader.appendChild(item);
+          });
+          krList.appendChild(krHeader);
           objectiveGroup.rows.forEach(({ row }) => {
             const kr = document.createElement("div");
-            kr.className = "okr-kr";
+            kr.className = "okr-kr-row";
             [
-              [2, "关键结果 KR"],
-              [3, "衡量方式"],
-              [4, "责任人"],
-              [5, "权重"],
-              [6, "进度"],
-              [7, "备注"]
-            ].forEach(([cellIndex, label]) => {
+              [2],
+              [3],
+              [4],
+              [5],
+              [6],
+              [7]
+            ].forEach(([cellIndex]) => {
               const field = document.createElement("div");
-              const labelEl = document.createElement("span");
-              labelEl.className = "okr-label";
-              labelEl.textContent = label;
               const cell = document.createElement("div");
               cell.className = "okr-cell";
               cell.textContent = row[cellIndex] || "";
-              field.appendChild(labelEl);
               field.appendChild(cell);
               kr.appendChild(field);
             });
