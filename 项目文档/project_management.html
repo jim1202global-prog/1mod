@@ -619,11 +619,11 @@
         id: "roadmap",
         title: "项目路线图",
         description: "按月份倒叙展示项目推进节奏，把月度目标、重点任务和预期成果统一放在路线图中管理。",
-        headers: ["月份", "阶段", "本月目标", "老板关注点", "重点任务", "预期成果", "负责人", "状态", "备注"],
+        headers: ["月份", "阶段", "本月目标", "重点任务", "预期成果", "状态", "备注"],
         rows: [
-          ["2026年9月", "阶段 3-4：内部测试与公开测试版", "完成内部测试并准备公开测试版", "主要问题是否已暴露，是否具备外部试用条件", "执行内部测试、整理反馈、修复主要问题、准备公开测试版", "公开测试版达到早期用户可用状态", "待定", "未开始", "重点收集真实反馈"],
-          ["2026年8月", "阶段 2：MVP 构建", "推进 MVP 核心流程设计与构建", "核心价值能否用最小版本跑通", "完成 MVP 功能清单、用户流程、技术架构和核心流程开发", "目标用户可以走通核心流程", "待定", "未开始", "重点验证核心价值"],
-          ["2026年7月", "阶段 0-1：项目定义与调研规划", "完成项目定义、基础规划和管理体系搭建", "项目要解决什么问题，第一版边界是否清楚，方向是否有真实需求", "确认项目定位、目标用户、MVP 范围、核心用户场景、风险清单", "项目方向清晰，第一版范围可执行", "待定", "未开始", "作为 1mod 项目启动月"]
+          ["2026年9月", "阶段 3-4：内部测试与公开测试版", "完成内部测试并准备公开测试版", "执行内部测试、整理反馈、修复主要问题、准备公开测试版", "公开测试版达到早期用户可用状态", "未开始", "重点收集真实反馈"],
+          ["2026年8月", "阶段 2：MVP 构建", "推进 MVP 核心流程设计与构建", "完成 MVP 功能清单、用户流程、技术架构和核心流程开发", "目标用户可以走通核心流程", "未开始", "重点验证核心价值"],
+          ["2026年7月", "阶段 0-1：项目定义与调研规划", "完成项目定义、基础规划和管理体系搭建", "确认项目定位、目标用户、MVP 范围、核心用户场景、风险清单", "项目方向清晰，第一版范围可执行", "未开始", "作为 1mod 项目启动月"]
         ]
       },
       {
@@ -673,7 +673,7 @@
         description: "说明每类管理工具的用途、字段和更新节奏。",
         headers: ["工具/表格", "用途", "推荐字段", "更新节奏", "负责人", "备注"],
         rows: [
-          ["路线图", "面向老板展示项目阶段、管理关注点和月度推进节奏", "月份、阶段、本月目标、老板关注点、重点任务、预期成果、负责人、状态、备注", "每月规划，每周检查", "项目负责人", "支持美观时间轴、倒叙展示、新增月份和删除月份"],
+          ["路线图", "展示项目阶段和月度推进节奏", "月份、阶段、本月目标、重点任务、预期成果、状态、备注", "每月规划，每周检查", "项目负责人", "支持美观时间轴、倒叙展示、新增月份和删除月份"],
           ["月度 OKR", "像飞书 OKR 一样按月份、目标 O 和关键结果 KR 管理", "月份、目标 O、关键结果 KR、衡量方式、责任人、权重、进度、备注", "每周检查，月底复盘", "项目负责人", "HTML 版支持月份展开/收缩、倒叙展示，以及新增/删减 OKR 月份、O 和 KR"],
           ["待办事项", "存放所有任务、想法、问题和改进项", "编号、归属、模块、事项、用户/问题、优先级、负责人、状态、备注", "持续更新", "项目负责人/产品负责人", "支持在表头通过下拉按钮按归属、负责人和状态筛选"],
           ["每周计划", "选择本周真正重要的少量任务", "周次、目标、任务、负责人、预期结果、完成情况、遇见问题", "每周更新", "项目负责人", "方便周会复盘完成度和阻塞点"],
@@ -765,6 +765,11 @@
         existing.description = defaultSection.description;
 
         if (existing.id === "roadmap") {
+          if (existing.headers.includes("老板关注点") || existing.headers.includes("负责人")) {
+            existing.rows = normalizeRoadmapRows(existing);
+            existing.headers = [...defaultSection.headers];
+          }
+
           const oldMilestones = merged.find((section) => section.id === "milestones");
           if (oldMilestones?.rows?.length) {
             existing.headers = [...defaultSection.headers];
@@ -772,10 +777,8 @@
               row[0] || "",
               row[2] || "",
               row[1] || "",
-              row[4] || "",
               row[3] || "",
               row[4] || "",
-              row[5] || "待定",
               row[6] || "未开始",
               row[7] || ""
             ]);
@@ -926,12 +929,12 @@
         item.innerHTML = `
           <div class="timeline-meta">
             ${escapeHtml(row[0] || "")}
-            <span class="timeline-status">${escapeHtml(row[7] || "未开始")}</span>
+            <span class="timeline-status">${escapeHtml(row[5] || "未开始")}</span>
           </div>
           <div class="timeline-card">
             <div class="timeline-title">${escapeHtml(row[2] || "")}</div>
-            <div class="timeline-text">${escapeHtml(row[4] || "")}</div>
-            <div class="timeline-text">预期成果：${escapeHtml(row[5] || "")}</div>
+            <div class="timeline-text">${escapeHtml(row[3] || "")}</div>
+            <div class="timeline-text">预期成果：${escapeHtml(row[4] || "")}</div>
           </div>
         `;
         wrap.appendChild(item);
@@ -1487,7 +1490,7 @@
 
     function createNextMonthPlanRow(rows) {
       const monthText = getNextMonthText(rows);
-      return [monthText, "填写阶段", "填写本月目标", "填写老板关注点", "填写本月重点任务", "填写预期成果", "待定", "未开始", ""];
+      return [monthText, "填写阶段", "填写本月目标", "填写本月重点任务", "填写预期成果", "未开始", ""];
     }
 
     function createNextWeekRows(rows) {
@@ -1643,6 +1646,26 @@
         row[section.headers.indexOf("预期结果")] || "",
         row[completionIndex !== -1 ? completionIndex : statusIndex] || "未开始",
         row[section.headers.indexOf("遇见问题")] || ""
+      ]);
+    }
+
+    function normalizeRoadmapRows(section) {
+      const monthIndex = section.headers.indexOf("月份");
+      const phaseIndex = section.headers.indexOf("阶段");
+      const goalIndex = section.headers.indexOf("本月目标");
+      const taskIndex = section.headers.indexOf("重点任务");
+      const outcomeIndex = section.headers.indexOf("预期成果");
+      const statusIndex = section.headers.indexOf("状态");
+      const notesIndex = section.headers.indexOf("备注");
+
+      return section.rows.map((row) => [
+        row[monthIndex] || "",
+        row[phaseIndex] || "",
+        row[goalIndex] || "",
+        row[taskIndex] || "",
+        row[outcomeIndex] || "",
+        row[statusIndex] || "未开始",
+        row[notesIndex] || ""
       ]);
     }
 
@@ -2130,12 +2153,12 @@
         item.innerHTML = \`
           <div class="timeline-meta">
             \${escapeHtml(row[0] || "")}
-            <span class="timeline-status">\${escapeHtml(row[7] || "未开始")}</span>
+            <span class="timeline-status">\${escapeHtml(row[5] || "未开始")}</span>
           </div>
           <div class="timeline-card">
             <div class="timeline-title">\${escapeHtml(row[2] || "")}</div>
-            <div class="timeline-text">\${escapeHtml(row[4] || "")}</div>
-            <div class="timeline-text">预期成果：\${escapeHtml(row[5] || "")}</div>
+            <div class="timeline-text">\${escapeHtml(row[3] || "")}</div>
+            <div class="timeline-text">预期成果：\${escapeHtml(row[4] || "")}</div>
           </div>
         \`;
         wrap.appendChild(item);
