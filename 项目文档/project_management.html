@@ -2140,6 +2140,27 @@
       flex: 1;
     }
 
+    .okr-toggle {
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--brand);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .okr-toggle:hover {
+      background: var(--brand-soft);
+    }
+
+    .okr-month.collapsed .okr-month-header {
+      border-bottom: 0;
+    }
+
     .okr-objective {
       padding: 14px 16px;
       border-top: 1px solid var(--line);
@@ -2319,6 +2340,7 @@
   <script>
     const data = ${safeData};
     let activeId = data[0].id;
+    const okrCollapsedMonths = {};
     const nav = document.getElementById("nav");
     const sections = document.getElementById("sections");
     const pageTitle = document.getElementById("pageTitle");
@@ -2403,17 +2425,29 @@
       const board = document.createElement("div");
       board.className = "okr-board";
       groupOkrRows(section.rows).forEach((monthGroup) => {
+        const isCollapsed = isOkrMonthCollapsed(monthGroup.month);
         const monthBlock = document.createElement("div");
         monthBlock.className = "okr-month";
+        monthBlock.classList.toggle("collapsed", isCollapsed);
         const monthHeader = document.createElement("div");
         monthHeader.className = "okr-month-header";
         const monthTitle = document.createElement("div");
         monthTitle.className = "okr-month-title";
         monthTitle.textContent = monthGroup.month;
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "okr-toggle";
+        toggle.textContent = isCollapsed ? "展开" : "收缩";
+        toggle.addEventListener("click", () => {
+          okrCollapsedMonths[monthGroup.month] = !isOkrMonthCollapsed(monthGroup.month);
+          render();
+          switchSection("monthly-okr");
+        });
         monthHeader.appendChild(monthTitle);
+        monthHeader.appendChild(toggle);
         monthBlock.appendChild(monthHeader);
 
-        monthGroup.objectives.forEach((objectiveGroup) => {
+        if (!isCollapsed) monthGroup.objectives.forEach((objectiveGroup) => {
           const objectiveBlock = document.createElement("div");
           objectiveBlock.className = "okr-objective";
           const objectiveTitle = document.createElement("div");
@@ -2457,6 +2491,18 @@
         board.appendChild(monthBlock);
       });
       return board;
+    }
+
+    function isOkrMonthCollapsed(monthText) {
+      if (Object.prototype.hasOwnProperty.call(okrCollapsedMonths, monthText)) return okrCollapsedMonths[monthText];
+      return !isCurrentOkrMonth(monthText);
+    }
+
+    function isCurrentOkrMonth(monthText) {
+      const month = parseMonthText(monthText);
+      if (!month) return false;
+      const now = new Date();
+      return month.year === now.getFullYear() && month.month === now.getMonth() + 1;
     }
 
     function createReadOnlyWeeklyBoard(section) {
