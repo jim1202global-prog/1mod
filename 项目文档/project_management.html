@@ -506,6 +506,7 @@
       vertical-align: top;
       font-size: 14px;
       line-height: 1.55;
+      white-space: pre-wrap;
       word-break: break-word;
     }
 
@@ -2290,6 +2291,7 @@
       vertical-align: top;
       font-size: 14px;
       line-height: 1.55;
+      white-space: pre-wrap;
       word-break: break-word;
     }
 
@@ -2369,6 +2371,7 @@
 
         if (section.id === "roadmap") {
           block.appendChild(createMonthTimeline(section));
+          block.appendChild(createReadOnlyTable(section.headers, getRowsByMonthDesc(section.rows)));
         } else if (section.id === "monthly-okr") {
           block.appendChild(createReadOnlyOkrBoard(section));
         } else if (section.id === "weekly") {
