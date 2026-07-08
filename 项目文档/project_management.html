@@ -510,6 +510,7 @@
     td[contenteditable="true"] {
       background: #ffffff;
       outline: none;
+      white-space: pre-wrap;
     }
 
     td[contenteditable="true"]:focus {
@@ -632,15 +633,30 @@
         description: "把本月最重要的项目目标和关键结果放在一起，用来聚焦执行和复盘进展。",
         headers: ["月份", "目标 O", "关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注"],
         rows: [
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR1：完成项目一句话定位", "是否形成可被团队复述的定位句", "待定", "30%", "0%", "对应 B-001"],
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR2：明确核心用户和次要用户", "用户群体清单是否完成", "待定", "30%", "0%", "对应 B-002"],
-          ["第 1 月", "O1：完成 1mod 项目定义并形成统一方向", "KR3：确定 MVP 必做范围和暂缓范围", "MVP 范围清单是否完成", "待定", "40%", "0%", "对应 B-003"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR1：整理 3-5 个核心用户场景", "用户场景数量", "待定", "35%", "0%", "对应 B-005"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR2：完成类似项目或产品调研", "调研对象数量", "待定", "35%", "0%", "对应 B-004"],
-          ["第 1 月", "O2：完成核心调研并降低方向风险", "KR3：形成初版风险登记表", "是否完成风险列表并指定缓解措施", "待定", "30%", "0%", "对应风险登记表"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR1：完成 MVP 功能清单", "功能清单是否完成并关联用户场景", "待定", "40%", "0%", "对应 B-006"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR2：草拟核心用户流程", "主流程是否清晰可走通", "待定", "30%", "0%", "对应 B-008"],
-          ["第 1 月", "O3：为 MVP 构建做好产品和技术准备", "KR3：确定初步技术架构方向", "架构方案是否记录取舍和理由", "待定", "30%", "0%", "对应 B-010"]
+          ["2026年7月", "O1：完成 1mod 海外版 MVP 快速闭环", "KR1：完成 Windows 客户端 MVP 安装包", "可下载并安装的 Windows 安装包产出，完成基础安装验证", "待定", "25%", "0%", "MVP 交付"],
+          ["2026年7月", "O1：完成 1mod 海外版 MVP 快速闭环", "KR2：跑通游戏下载识别、Mod 安装/卸载、修改器开启/关闭主流程", "主流程端到端可完成，并通过内部测试记录验证", "待定", "25%", "0%", "核心链路"],
+          ["2026年7月", "O1：完成 1mod 海外版 MVP 快速闭环", "KR3：支持 5-10 款重点 Steam 游戏", "完成 5-10 款重点 Steam 游戏识别与功能适配清单", "待定", "25%", "0%", "游戏适配"],
+          ["2026年7月", "O1：完成 1mod 海外版 MVP 快速闭环", "KR4：完成英文落地页和下载入口", "英文落地页上线，下载入口可访问并可完成下载安装", "待定", "25%", "0%", "官网入口"],
+          ["2026年7月", "O2：完成种子用户内测验证", "KR1：招募首批种子用户进行内测", "形成首批种子用户名单，并完成内测邀请与参与记录", "待定", "25%", "0%", "种子用户"],
+          ["2026年7月", "O2：完成种子用户内测验证", "KR2：收集用户在下载、安装、使用、信任、安全方面的反馈", "按下载、安装、使用、信任、安全分类沉淀反馈记录", "待定", "25%", "0%", "反馈收集"],
+          ["2026年7月", "O2：完成种子用户内测验证", "KR3：整理高优先级问题清单", "输出按优先级排序的问题清单，并标记负责人和处理状态", "待定", "25%", "0%", "问题管理"],
+          ["2026年7月", "O2：完成种子用户内测验证", "KR4：完成 8月 Public Beta 发布前修复计划", "形成 8月 Public Beta 前修复计划，包含范围、优先级和目标时间", "待定", "25%", "0%", "8月准备"],
+          ["2026年7月", "O3：建立最小数据与反馈机制", "KR1：接入下载量、启动量、游戏识别成功率、功能使用量等基础数据", "基础数据事件可采集，并能查看下载、启动、识别成功率和功能使用量", "待定", "25%", "0%", "数据埋点"],
+          ["2026年7月", "O3：建立最小数据与反馈机制", "KR2：建立 Discord、表单或邮箱反馈入口", "至少一个反馈入口上线并在官网或产品内可访问", "待定", "25%", "0%", "反馈入口"],
+          ["2026年7月", "O3：建立最小数据与反馈机制", "KR3：完成 FAQ、安装说明、免责声明初版", "FAQ、安装说明、免责声明三类文档完成初版并可对外查看", "待定", "25%", "0%", "用户文档"],
+          ["2026年7月", "O3：建立最小数据与反馈机制", "KR4：输出 7月 MVP 验证报告", "形成 7月 MVP 验证报告，包含数据、反馈、问题和 8月建议", "待定", "25%", "0%", "月度复盘"],
+          ["2026年8月", "O1：完成 1mod Public Beta 发布", "KR1：发布 Public Beta 客户端安装包", "Public Beta 安装包完成发布，并可被外部用户下载和安装", "待定", "25%", "0%", "Beta 发布"],
+          ["2026年8月", "O1：完成 1mod Public Beta 发布", "KR2：支持 20-30 款重点 Steam 游戏", "完成 20-30 款重点 Steam 游戏支持清单，并通过基础功能验证", "待定", "25%", "0%", "游戏覆盖"],
+          ["2026年8月", "O1：完成 1mod Public Beta 发布", "KR3：官网具备稳定下载、产品介绍、FAQ、更新日志能力", "官网具备下载、产品介绍、FAQ、更新日志页面，并通过访问检查", "待定", "25%", "0%", "官网能力"],
+          ["2026年8月", "O1：完成 1mod Public Beta 发布", "KR4：建立版本更新和快速修复机制", "形成版本发布、更新日志、问题修复和回滚流程", "待定", "25%", "0%", "发布机制"],
+          ["2026年8月", "O2：验证海外真实用户使用链路", "KR1：跟踪下载、安装、启动、游戏识别、功能使用数据", "关键链路数据可查看，并覆盖下载、安装、启动、识别、功能使用", "待定", "25%", "0%", "链路数据"],
+          ["2026年8月", "O2：验证海外真实用户使用链路", "KR2：核心链路成功率达到 80% 以上", "下载到核心功能使用的关键链路成功率达到 80% 以上", "待定", "25%", "0%", "成功率"],
+          ["2026年8月", "O2：验证海外真实用户使用链路", "KR3：收集公开测试用户反馈", "收集并分类公开测试用户反馈，形成反馈记录表", "待定", "25%", "0%", "用户反馈"],
+          ["2026年8月", "O2：验证海外真实用户使用链路", "KR4：完成 Public Beta 问题复盘和优化清单", "输出 Public Beta 问题复盘和下一轮优化清单", "待定", "25%", "0%", "复盘优化"],
+          ["2026年8月", "O3：启动海外首批渠道测试", "KR1：测试 2-3 个海外渠道，比如 Reddit、Discord、YouTube、TikTok、游戏社区", "完成 2-3 个海外渠道投放或发布测试，并记录结果", "待定", "25%", "0%", "渠道测试"],
+          ["2026年8月", "O3：启动海外首批渠道测试", "KR2：完成 3-5 个重点游戏专题页", "上线 3-5 个重点游戏专题页，并可追踪访问或下载表现", "待定", "25%", "0%", "内容页面"],
+          ["2026年8月", "O3：启动海外首批渠道测试", "KR3：识别带来有效下载和反馈的渠道", "根据下载、反馈或转化数据识别有效渠道", "待定", "25%", "0%", "渠道判断"],
+          ["2026年8月", "O3：启动海外首批渠道测试", "KR4：形成 9月增长实验计划", "输出 9月增长实验计划，包含渠道、内容、目标和衡量指标", "待定", "25%", "0%", "9月计划"]
         ]
       },
       {
@@ -843,6 +859,19 @@
           ]);
         }
 
+        if (existing.id === "monthly-okr") {
+          const hasOldPlaceholder = existing.rows.some((row) => String(row[0] || "").includes("第 1 月"));
+          if (hasOldPlaceholder) {
+            existing.headers = [...defaultSection.headers];
+            existing.rows = defaultSection.rows.map((row) => [...row]);
+          } else {
+            defaultSection.rows.forEach((defaultRow) => {
+              const hasRow = existing.rows.some((row) => row[0] === defaultRow[0] && row[1] === defaultRow[1] && row[2] === defaultRow[2]);
+              if (!hasRow) existing.rows.push([...defaultRow]);
+            });
+          }
+        }
+
         if (existing.id === "decisions" && existing.rows.length === 1 && existing.rows[0][0] === "YYYY-MM-DD") {
           existing.rows = defaultSection.rows.map((row) => [...row]);
         }
@@ -882,6 +911,21 @@
       window.statusTimer = setTimeout(() => {
         status.textContent = "";
       }, 1400);
+    }
+
+    function getEditableCellValue(cell) {
+      return cell.innerText.replace(/\r\n/g, "\n").replace(/\n$/, "");
+    }
+
+    function insertEditableLineBreak() {
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) return;
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(document.createTextNode("\n"));
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
 
     function render() {
@@ -1226,7 +1270,14 @@
           } else {
             td.contentEditable = "true";
             td.textContent = row[cellIndex] || "";
-            td.addEventListener("input", () => onChange(rowIndex, cellIndex, td.textContent));
+            td.addEventListener("keydown", (event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                insertEditableLineBreak();
+                onChange(rowIndex, cellIndex, getEditableCellValue(td));
+              }
+            });
+            td.addEventListener("input", () => onChange(rowIndex, cellIndex, getEditableCellValue(td)));
           }
           tr.appendChild(td);
         });
