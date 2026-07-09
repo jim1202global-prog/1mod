@@ -383,6 +383,11 @@
       align-items: stretch;
     }
 
+    .okr-board .okr-kr-header,
+    .okr-board .okr-kr-row {
+      grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 0.9fr) repeat(4, minmax(90px, 0.7fr)) minmax(92px, 0.45fr);
+    }
+
     .okr-kr-header {
       background: #f3f6fa;
       color: #4a5668;
@@ -1175,7 +1180,7 @@
           krList.className = "okr-kr-list";
           const krHeader = document.createElement("div");
           krHeader.className = "okr-kr-header";
-          ["关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注"].forEach((label) => {
+          ["关键结果 KR", "衡量方式", "责任人", "权重", "进度", "备注", "操作"].forEach((label) => {
             const item = document.createElement("div");
             item.textContent = label;
             krHeader.appendChild(item);
@@ -1201,6 +1206,21 @@
               field.appendChild(cell);
               kr.appendChild(field);
             });
+            const actionField = document.createElement("div");
+            actionField.className = "row-delete-cell";
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "row-delete-button";
+            deleteButton.textContent = "删除此行";
+            deleteButton.addEventListener("click", () => {
+              if (!confirm("确认删除这条 OKR？")) return;
+              section.rows.splice(index, 1);
+              saveData();
+              render();
+              switchSection("monthly-okr");
+            });
+            actionField.appendChild(deleteButton);
+            kr.appendChild(actionField);
             krList.appendChild(kr);
           });
           objectiveBlock.appendChild(krList);
