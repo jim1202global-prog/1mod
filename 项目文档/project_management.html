@@ -1224,12 +1224,50 @@
             krList.appendChild(kr);
           });
           objectiveBlock.appendChild(krList);
+
+          const addKrWrap = document.createElement("div");
+          addKrWrap.className = "okr-add-kr-wrap";
+          const addKrButton = document.createElement("button");
+          addKrButton.type = "button";
+          addKrButton.className = "okr-add-kr-button";
+          addKrButton.textContent = "新增 KR";
+          addKrButton.addEventListener("click", () => {
+            const insertIndex = Math.max(...objectiveGroup.rows.map(({ index }) => index)) + 1;
+            section.rows.splice(insertIndex, 0, createKrRowForObjective(monthGroup.month, objectiveGroup.objective));
+            saveData();
+            render();
+            switchSection("monthly-okr");
+          });
+          addKrWrap.appendChild(addKrButton);
+          objectiveBlock.appendChild(addKrWrap);
           monthBlock.appendChild(objectiveBlock);
         });
 
         board.appendChild(monthBlock);
       });
       return board;
+    }
+
+    function createKrRowForObjective(month, objective) {
+      return [
+        month,
+        objective,
+        "KR：新增关键结果",
+        "填写衡量方式",
+        inferOkrOwner(objective),
+        "0%",
+        "0%",
+        ""
+      ];
+    }
+
+    function inferOkrOwner(objective) {
+      const text = String(objective || "");
+      if (text.includes("产品")) return "产品";
+      if (text.includes("运营")) return "运营";
+      if (text.includes("市场")) return "市场";
+      if (text.includes("技术")) return "技术";
+      return "待定";
     }
 
     function createOkrEditableCell(value, onChange) {
@@ -2285,6 +2323,29 @@
       line-height: 1.45;
       background: #ffffff;
       word-break: break-word;
+    }
+
+    .okr-add-kr-wrap {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 10px;
+    }
+
+    .okr-add-kr-button {
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--brand);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .okr-add-kr-button:hover {
+      background: var(--brand-soft);
     }
 
     .weekly-board {
