@@ -648,12 +648,14 @@
           <button class="action-button" id="addKrButton" type="button">新增 KR</button>
           <button class="action-button" id="deleteKrButton" type="button">删减 KR</button>
           <button class="action-button" id="resetButton" type="button">恢复默认</button>
+          <button class="action-button" id="pickSourceButton" type="button">绑定源文件</button>
+          <button class="action-button primary" id="saveSourceButton" type="button">保存到文件</button>
           <button class="action-button primary" id="exportButton" type="button">导出只读 HTML</button>
         </div>
       </div>
 
       <div id="sections"></div>
-      <div class="hint">提示：点击表格内容即可编辑。修改会自动保存在当前浏览器中。</div>
+      <div class="hint">提示：点击表格内容即可编辑。修改会自动保存在当前浏览器中；需要同步到 GitHub 时，请点击“保存到文件”，再用 GitHub Desktop 提交并推送。</div>
       <div class="status" id="status"></div>
     </main>
   </div>
@@ -866,6 +868,7 @@
     const addKrButton = document.getElementById("addKrButton");
     const deleteKrButton = document.getElementById("deleteKrButton");
     const status = document.getElementById("status");
+    let sourceFileHandle = null;
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -1053,6 +1056,116 @@
       window.statusTimer = setTimeout(() => {
         status.textContent = "";
       }, 1400);
+    }
+
+    function buildDefaultDataLiteral(sourceData) {
+      return JSON.stringify(sourceData, null, 6).replace(/<\/script/gi, "<\\/script");
+    }
+
+    function findDefaultDataRange(html) {
+      const marker = "const defaultData =";
+      const markerIndex = html.indexOf(marker);
+      if (markerIndex === -1) throw new Error("没有找到 defaultData 数据区。");
+
+      const arrayStart = html.indexOf("[", markerIndex);
+      if (arrayStart === -1) throw new Error("没有找到 defaultData 起始位置。");
+
+      let depth = 0;
+      let inString = false;
+      let quote = "";
+      let escaped = false;
+
+      for (let index = arrayStart; index < html.length; index += 1) {
+        const char = html[index];
+
+        if (inString) {
+          if (escaped) {
+            escaped = false;
+          } else if (char === "\\") {
+            escaped = true;
+          } else if (char === quote) {
+            inString = false;
+          }
+          continue;
+        }
+
+        if (char === '"' || char === "'") {
+          inString = true;
+          quote = char;
+          continue;
+        }
+
+        if (char === "[") depth += 1;
+        if (char === "]") {
+          depth -= 1;
+          if (depth === 0) {
+            return { start: arrayStart, end: index + 1 };
+          }
+        }
+      }
+
+      throw new Error("没有找到 defaultData 结束位置。");
+    }
+
+    function embedDataInHtml(html, sourceData) {
+      const range = findDefaultDataRange(html);
+      return `${html.slice(0, range.start)}${buildDefaultDataLiteral(sourceData)}${html.slice(range.end)}`;
+    }
+
+    async function chooseSourceFile() {
+      if (!("showOpenFilePicker" in window)) {
+        alert("当前浏览器不支持直接保存到文件。请使用最新版 Chrome 或 Edge 打开这个页面。");
+        return false;
+      }
+
+      const [handle] = await window.showOpenFilePicker({
+        multiple: false,
+        types: [
+          {
+            description: "1mod 项目管理 HTML",
+            accept: { "text/html": [".html"] }
+          }
+        ]
+      });
+
+      sourceFileHandle = handle;
+      status.textContent = "已绑定源文件";
+      return true;
+    }
+
+    async function requestWritePermission(handle) {
+      const options = { mode: "readwrite" };
+      if ((await handle.queryPermission(options)) === "granted") return true;
+      return (await handle.requestPermission(options)) === "granted";
+    }
+
+    async function saveToSourceFile() {
+      try {
+        saveData();
+
+        if (!sourceFileHandle) {
+          const selected = await chooseSourceFile();
+          if (!selected) return;
+        }
+
+        if (!(await requestWritePermission(sourceFileHandle))) {
+          alert("没有获得写入权限，文件没有保存。");
+          return;
+        }
+
+        const file = await sourceFileHandle.getFile();
+        const currentHtml = await file.text();
+        const nextHtml = embedDataInHtml(currentHtml, data);
+        const writable = await sourceFileHandle.createWritable();
+        await writable.write(nextHtml);
+        await writable.close();
+
+        status.textContent = "已保存到 HTML 文件。现在可以用 GitHub Desktop 提交并推送。";
+      } catch (error) {
+        if (error?.name === "AbortError") return;
+        console.error(error);
+        alert(`保存失败：${error.message || error}`);
+      }
     }
 
     function getEditableCellValue(cell) {
@@ -1965,6 +2078,18 @@
       activeId = data[0].id;
       render();
       status.textContent = "已恢复默认内容";
+    });
+
+    document.getElementById("pickSourceButton").addEventListener("click", () => {
+      chooseSourceFile().catch((error) => {
+        if (error?.name === "AbortError") return;
+        console.error(error);
+        alert(`绑定失败：${error.message || error}`);
+      });
+    });
+
+    document.getElementById("saveSourceButton").addEventListener("click", () => {
+      saveToSourceFile();
     });
 
     function createReadOnlyHtml(exportData) {
