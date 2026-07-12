@@ -648,14 +648,14 @@
           <button class="action-button" id="addKrButton" type="button">新增 KR</button>
           <button class="action-button" id="deleteKrButton" type="button">删减 KR</button>
           <button class="action-button" id="resetButton" type="button">恢复默认</button>
-          <button class="action-button" id="pickSourceButton" type="button">绑定源文件</button>
-          <button class="action-button primary" id="saveSourceButton" type="button">保存到文件</button>
+          <button class="action-button" id="pickSourceButton" type="button">绑定项目文件夹</button>
+          <button class="action-button primary" id="saveSourceButton" type="button">保存新版本</button>
           <button class="action-button primary" id="exportButton" type="button">导出只读 HTML</button>
         </div>
       </div>
 
       <div id="sections"></div>
-      <div class="hint">提示：点击表格内容即可编辑。修改会自动保存在当前浏览器中；需要同步到 GitHub 时，请点击“保存到文件”，再用 GitHub Desktop 提交并推送。</div>
+      <div class="hint">提示：点击表格内容即可编辑。修改会自动保存在当前浏览器中；需要跨电脑同步时，请绑定“项目文档”文件夹并点击“保存新版本”，再用 GitHub Desktop 提交并推送。</div>
       <div class="status" id="status"></div>
     </main>
   </div>
@@ -869,6 +869,7 @@
     const deleteKrButton = document.getElementById("deleteKrButton");
     const status = document.getElementById("status");
     let sourceFileHandle = null;
+    let projectDirectoryHandle = null;
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -1112,6 +1113,129 @@
       return `${html.slice(0, range.start)}${buildDefaultDataLiteral(sourceData)}${html.slice(range.end)}`;
     }
 
+    function createEditableHtml(exportData) {
+      return embedDataInHtml(document.documentElement.outerHTML, exportData);
+    }
+
+    function createVersionFileName(date = new Date()) {
+      const pad = (value) => String(value).padStart(2, "0");
+      return [
+        "project_management",
+        `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`,
+        `${pad(date.getHours())}-${pad(date.getMinutes())}-${pad(date.getSeconds())}`
+      ].join("_") + ".html";
+    }
+
+    function isVersionFileName(name) {
+      return /^project_management_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.html$/.test(name);
+    }
+
+    function parseEmbeddedData(html) {
+      const range = findDefaultDataRange(html);
+      return orderSections(JSON.parse(html.slice(range.start, range.end)));
+    }
+
+    function openHandleStore() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open("one_mod_project_management_handles", 1);
+        request.onupgradeneeded = () => {
+          request.result.createObjectStore("handles");
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function saveStoredHandle(key, handle) {
+      const db = await openHandleStore();
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction("handles", "readwrite");
+        transaction.objectStore("handles").put(handle, key);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+      });
+    }
+
+    async function getStoredHandle(key) {
+      const db = await openHandleStore();
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction("handles", "readonly");
+        const request = transaction.objectStore("handles").get(key);
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function requestDirectoryPermission(handle, mode = "readwrite", promptUser = true) {
+      const options = { mode };
+      if ((await handle.queryPermission(options)) === "granted") return true;
+      if (!promptUser) return false;
+      return (await handle.requestPermission(options)) === "granted";
+    }
+
+    async function getProjectDirectory(promptUser = true) {
+      if (projectDirectoryHandle && await requestDirectoryPermission(projectDirectoryHandle, "readwrite", promptUser)) return projectDirectoryHandle;
+
+      const stored = await getStoredHandle("projectDirectory");
+      if (stored && await requestDirectoryPermission(stored, "readwrite", promptUser)) {
+        projectDirectoryHandle = stored;
+        return projectDirectoryHandle;
+      }
+
+      if (!promptUser) return null;
+
+      if (!("showDirectoryPicker" in window)) {
+        alert("当前浏览器不支持直接保存到项目文件夹。请使用最新版 Chrome 或 Edge 打开这个页面。");
+        return null;
+      }
+
+      const handle = await window.showDirectoryPicker({ mode: "readwrite" });
+      if (!(await requestDirectoryPermission(handle))) {
+        alert("没有获得文件夹写入权限。");
+        return null;
+      }
+
+      projectDirectoryHandle = handle;
+      await saveStoredHandle("projectDirectory", handle);
+      status.textContent = "已绑定项目文件夹";
+      return projectDirectoryHandle;
+    }
+
+    async function findLatestVersionHandle(directoryHandle) {
+      let latest = null;
+      for await (const [name, handle] of directoryHandle.entries()) {
+        if (handle.kind !== "file" || !isVersionFileName(name)) continue;
+        if (!latest || name > latest.name) latest = { name, handle };
+      }
+      return latest;
+    }
+
+    async function loadLatestVersionFromDirectory(promptUser = false) {
+      try {
+        const directoryHandle = await getProjectDirectory(promptUser);
+        if (!directoryHandle) return false;
+
+        const latest = await findLatestVersionHandle(directoryHandle);
+        if (!latest) {
+          if (promptUser) status.textContent = "项目文件夹里还没有保存过的新版本文件";
+          return false;
+        }
+
+        const file = await latest.handle.getFile();
+        data = mergeWithDefaults(parseEmbeddedData(await file.text()));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        activeId = data[0].id;
+        render();
+        status.textContent = `已读取最新版本：${latest.name}`;
+        return true;
+      } catch (error) {
+        if (error?.name === "AbortError") return false;
+        console.error(error);
+        if (promptUser) alert(`读取最新版本失败：${error.message || error}`);
+        return false;
+      }
+    }
+
     async function chooseSourceFile() {
       if (!("showOpenFilePicker" in window)) {
         alert("当前浏览器不支持直接保存到文件。请使用最新版 Chrome 或 Edge 打开这个页面。");
@@ -1165,6 +1289,26 @@
         if (error?.name === "AbortError") return;
         console.error(error);
         alert(`保存失败：${error.message || error}`);
+      }
+    }
+
+    async function saveNewVersionFile() {
+      try {
+        saveData();
+        const directoryHandle = await getProjectDirectory(true);
+        if (!directoryHandle) return;
+
+        const fileName = createVersionFileName();
+        const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
+        const writable = await fileHandle.createWritable();
+        await writable.write(createEditableHtml(data));
+        await writable.close();
+
+        status.textContent = `已保存新版本：${fileName}。请用 GitHub Desktop 提交并推送。`;
+      } catch (error) {
+        if (error?.name === "AbortError") return;
+        console.error(error);
+        alert(`保存新版本失败：${error.message || error}`);
       }
     }
 
@@ -2081,15 +2225,15 @@
     });
 
     document.getElementById("pickSourceButton").addEventListener("click", () => {
-      chooseSourceFile().catch((error) => {
+      getProjectDirectory(true).then(() => loadLatestVersionFromDirectory(false)).catch((error) => {
         if (error?.name === "AbortError") return;
         console.error(error);
-        alert(`绑定失败：${error.message || error}`);
+        alert(`绑定项目文件夹失败：${error.message || error}`);
       });
     });
 
     document.getElementById("saveSourceButton").addEventListener("click", () => {
-      saveToSourceFile();
+      saveNewVersionFile();
     });
 
     function createReadOnlyHtml(exportData) {
@@ -2963,6 +3107,7 @@
     });
 
     render();
+    loadLatestVersionFromDirectory(false);
   </script>
 </body>
 </html>
