@@ -1185,7 +1185,7 @@
       },
       {
             "id": "weekly",
-            "title": "每周计划",
+            "title": "每周重点",
             "description": "按周分组管理一周内的多人任务、负责人、优先级、完成情况和问题。",
             "headers": [
                   "周次",
@@ -1884,7 +1884,7 @@
                         "支持美观时间轴、倒叙展示、新增月份和删除月份"
                   ],
                   [
-                        "每周计划",
+                        "每周重点",
                         "选择本周真正重要的少量任务",
                         "周次、目标、任务、负责人、预期结果、完成情况、遇见问题",
                         "每周更新",
@@ -2132,10 +2132,13 @@
         }
 
         if (existing.id === "tools") {
+          existing.rows.forEach((row) => {
+            if (row[0] === "每周计划") row[0] = "每周重点";
+          });
           defaultSection.rows.forEach((defaultRow) => {
             const toolName = defaultRow[0];
             const existingRow = existing.rows.find((row) => row[0] === toolName);
-            if (existingRow && ["路线图", "待办事项", "每周计划"].includes(toolName)) {
+            if (existingRow && ["路线图", "待办事项", "每周重点"].includes(toolName)) {
               existing.rows[existing.rows.indexOf(existingRow)] = [...defaultRow];
             } else if (!existingRow) {
               existing.rows.push([...defaultRow]);
